@@ -1,0 +1,169 @@
+# Run Automated Test in UAT environment
+
+trigger: none
+
+pool:
+  vmImage: ubuntu-22.04
+
+parameters:
+  - name: "TARGET_ENV"
+    displayName: "Target Environment"
+    type: string
+    default: "UAT"
+    values:
+      - "DEV"
+      - "UAT"
+
+  - name: "USE_INTERNAL_ACCESS_ENV"
+    displayName: "Internal access to k8s services"
+    type: boolean
+    default: false
+
+  - name: "SCRIPT"
+    displayName: "Script name"
+    type: string
+    default: "getTransactions"
+    values:
+      - getTransactions
+      - getUserInfo
+      - getNoticesList
+      - getNoticeDetails
+      - getNoticeReceipt
+
+  - name: "SCENARIO"
+    displayName: "Soak test type"
+    type: string
+    default: "Fixed TPS"
+    values:
+      - "Fixed TPS"
+      - "Growing TPS"
+
+  - name: "VUS_MAX_ENV"
+    displayName: "Max TPS"
+    type: number
+
+  - name: "SCENARIO_DURATION_ENV"
+    displayName: "Test duration in seconds"
+    type: number
+    default: 30
+
+  - name: "SCENARIO_RAMP_STAGE_NUMBER_ENV"
+    displayName: "The number of steps for the growing TPS scenario (at least 3)"
+    type: number
+    default: 10
+
+  - name: "THRESHOLDS_API_MAX_MAX_MS_ENV"
+    displayName: "Max MAX milliseconds applied as default to single API tests"
+    type: number
+    default: 1000
+  - name: "THRESHOLDS_API_MAX_AVG_MS_ENV"
+    displayName: "Max AVG milliseconds applied as default to single API tests"
+    type: number
+    default: 500
+  - name: "THRESHOLDS_API_MAX_P90_MS_ENV"
+    displayName: "Max P90 milliseconds applied as default to single API tests"
+    type: number
+    default: 800
+  - name: "THRESHOLDS_API_MAX_P95_MS_ENV"
+    displayName: "Max P95 milliseconds applied as default to single API tests"
+    type: number
+    default: 1000
+
+variables:
+  # Comma separated list of tests to execute based on the SCRIPT parameter (if some test require the execution of more than one test, eg data preparation)
+  - name: k6Test_getTransactions
+    value: transactions/getTransactions
+
+  - name: k6Test_getUserInfo
+    value: auth/getUserInfo
+
+  - name: k6Test_getNoticesList
+    value: notices/getNoticesList
+
+  - name: k6Test_getNoticeDetails
+    value: notices/getNoticeDetails
+
+  - name: k6Test_getNoticeReceipt
+    value: notices/getNoticeReceipt
+
+  # Resolved list of k6 script to execute
+  - name: SCRIPTS_TO_EXECUTE
+    value: ${{ variables[format('k6Test_{0}', parameters.SCRIPT)] }}
+
+  # Setting env specific settings
+  - ${{ if eq(parameters.TARGET_ENV, 'dev') }}:
+      - name: selfHostedAgentPool
+        value: $(DEV_AGENT_POOL)
+  - ${{ else }}:
+      - name: selfHostedAgentPool
+        value: $(UAT_AGENT_POOL)
+
+  # Decoding scenario type
+  - ${{ if eq(parameters.SCENARIO, 'Fixed TPS') }}:
+      - name: SCENARIO_TYPE_ENV
+        value: constantArrivalRate
+  - ${{ else }}:
+      - name: SCENARIO_TYPE_ENV
+        value: rampingGrowingArrivalRate
+
+jobs:
+  - deployment: SoakTest
+    displayName: "Executing '${{ parameters.SCRIPT }}' (${{ parameters.SCENARIO }}) test on ${{ parameters.TARGET_ENV }} (internal access: ${{ parameters.USE_INTERNAL_ACCESS_ENV }})"
+    pool:
+      name: $(selfHostedAgentPool)
+    environment: ${{ upper(parameters.TARGET_ENV) }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              displayName: Checkout
+              fetchDepth: 1
+
+            - script: |
+                docker pull grafana/k6:latest
+              displayName: Pull k6 image
+
+            - ${{ each k6Test in split(variables.SCRIPTS_TO_EXECUTE, ',') }}:
+                - script: |
+                    chmod +x runAll.sh
+                    chmod +x run.sh
+                    docker run --rm \
+                      --user $UID \
+                      -v $(pwd):/app \
+                      --workdir "/app" \
+                      -e RESULTS_DIR=/app \
+                      -e USE_INTERNAL_ACCESS_ENV=${{ parameters.USE_INTERNAL_ACCESS_ENV }} \
+                      -e SCENARIO_TYPE_ENV=${{ variables.SCENARIO_TYPE_ENV }} \
+                      \
+                      -e VUS_MAX_ENV=${{ parameters.VUS_MAX_ENV }} \
+                      -e SCENARIO_DURATION_ENV=${{ parameters.SCENARIO_DURATION_ENV }} \
+                      -e SCENARIO_RAMP_STAGE_NUMBER_ENV=${{ parameters.SCENARIO_RAMP_STAGE_NUMBER_ENV }} \
+                      \
+                      -e THRESHOLDS_API_MAX_AVG_MS_ENV=${{ parameters.THRESHOLDS_API_MAX_AVG_MS_ENV }} \
+                      -e THRESHOLDS_API_MAX_MAX_MS_ENV=${{ parameters.THRESHOLDS_API_MAX_MAX_MS_ENV }} \
+                      -e THRESHOLDS_API_MAX_P90_MS_ENV=${{ parameters.THRESHOLDS_API_MAX_P90_MS_ENV }} \
+                      -e THRESHOLDS_API_MAX_P95_MS_ENV=${{ parameters.THRESHOLDS_API_MAX_P95_MS_ENV }} \
+                      \
+                      --entrypoint /app/runAll.sh \
+                      grafana/k6:latest \
+                      ${{ parameters.TARGET_ENV }} ${{k6Test}}.js
+                  condition: true
+                  displayName: Run k6 ${{k6Test}}.js on ${{ parameters.TARGET_ENV }}
+
+            - task: PublishTestResults@2
+              condition: true
+              displayName: "Publishing test results"
+              inputs:
+                testResultsFormat: "JUnit"
+                testResultsFiles: "results/**/*-result.xml"
+                searchFolder: "$(System.DefaultWorkingDirectory)"
+                failTaskOnFailedTests: true
+
+            - task: PublishPipelineArtifact@1
+              displayName: "Publishing test artifacts"
+              condition: true
+              inputs:
+                artifact: "results"
+                targetPath: "results"
+                publishLocation: "pipeline"
