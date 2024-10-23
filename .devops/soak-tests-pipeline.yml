@@ -92,11 +92,15 @@ variables:
         value: $(DEV_AGENT_POOL)
       - name: EXTERNAL_USER_ID_ENV
         value: e1d9c534-86a9-4039-80da-8aa7a33ac9e7
+      - name: SELFCARE_TOKEN_ISSUER_ENV
+        value: https://dev.selfcare.pagopa.it
   - ${{ else }}:
       - name: selfHostedAgentPool
         value: $(UAT_AGENT_POOL)
       - name: EXTERNAL_USER_ID_ENV
         value: ac7dc9a0-80e0-49b5-8622-501672310a08
+      - name: SELFCARE_TOKEN_ISSUER_ENV
+        value: https://uat.selfcare.pagopa.it
 
   # Decoding scenario type
   - ${{ if eq(parameters.SCENARIO, 'Fixed TPS') }}:

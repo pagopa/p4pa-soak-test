@@ -22,6 +22,13 @@ export const CONFIG = {
   ),
 
   CONTEXT: {
+    AUTH: {
+      SELFCARE: {
+        TOKEN_EXCHANGE: __ENV.SELFCARE_TOKEN_EXCHANGE_ENV,
+        ISSUER: __ENV.SELFCARE_TOKEN_ISSUER_ENV,
+      },
+      CLIENT_SECRET_PU: __ENV.CLIENT_SECRET_PU_ENV,
+    },
     EXTERNAL_USER_ID: __ENV.EXTERNAL_USER_ID_ENV,
   },
 
@@ -68,10 +75,10 @@ export const CONFIG = {
 
   THRESHOLDS: {
     DURATIONS: {
-      AVG: parseInt(coalesce(__ENV.THRESHOLDS_API_MAX_AVG_MS_ENV, 500)),
-      MAX: parseInt(coalesce(__ENV.THRESHOLDS_API_MAX_MAX_MS_ENV, 1000)),
-      P90: parseInt(coalesce(__ENV.THRESHOLDS_API_MAX_P90_MS_ENV, 800)),
-      P95: parseInt(coalesce(__ENV.THRESHOLDS_API_MAX_P95_MS_ENV, 1000)),
+      AVG: parseInt(coalesce(__ENV.THRESHOLDS_API_MAX_AVG_MS_ENV, 700)),
+      MAX: parseInt(coalesce(__ENV.THRESHOLDS_API_MAX_MAX_MS_ENV, 2500)),
+      P90: parseInt(coalesce(__ENV.THRESHOLDS_API_MAX_P90_MS_ENV, 900)),
+      P95: parseInt(coalesce(__ENV.THRESHOLDS_API_MAX_P95_MS_ENV, 1500)),
     },
     REQ_FAILED: {
       RATE: parseFloat(

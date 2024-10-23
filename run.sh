@@ -28,6 +28,6 @@ fi
 
 echo "Running $TEST_FILE"
 
-mkdir -p $RESULTS_DIR/results/$(basename $(dirname $TEST_FILE))
+mkdir -p $RESULTS_DIR/results/$(dirname ${TEST_FILE:10})
 
 $K6_BINARY run $TEST_FILE

@@ -22,6 +22,7 @@ The following environment variables allow to configure the scenarios discuessed 
 
 | ENV                                  | Description                                                                                                                                                                                 | Default |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| SELFCARE_TOKEN_EXCHANGE_ENV          | The Selfcare's ID token used for the token exchange authentication flow                                                                                                                     |
 | EXTERNAL_USER_ID_ENV                 | The external user id to use during fake auth                                                                                                                                                |
 | TARGET_ENV                           | The environment to test                                                                                                                                                                     |         |
 | USE_INTERNAL_ACCESS_ENV              | If use always internal base url or not                                                                                                                                                      | false   |
