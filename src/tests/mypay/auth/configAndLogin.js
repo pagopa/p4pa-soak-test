@@ -20,6 +20,7 @@ export const options = defaultApiOptionsBuilder(
 // K6 summary configuration
 export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 
+// Test
 export default () => {
   const result = configAndLogin();
 

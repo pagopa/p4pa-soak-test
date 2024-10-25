@@ -7,12 +7,17 @@ import { getBaseUrl, getInnerBaseUrl } from "../common/environment.js";
 export const AUTH_API_NAMES = {
   postToken: "auth/postToken",
   getUserInfo: "auth/getUserInfo",
+  registerClient: "auth/registerClient",
+  revokeClient: "auth/revokeClient",
 };
 
 const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
-const baseUrl = `${getBaseUrl()}/auth`;
+const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
+  ? innerBaseUrl
+  : `${getBaseUrl()}/auth`;
 
 export function postToken(
+  useInnerBaseUrl,
   grant_type,
   client_id,
   client_secret,
@@ -23,7 +28,9 @@ export function postToken(
   const apiName = AUTH_API_NAMES.postToken;
   const myParams = buildDefaultParams(apiName);
 
-  const url = new URL(`${innerBaseUrl}/payhub/auth/token`);
+  const url = new URL(
+    `${useInnerBaseUrl ? innerBaseUrl : baseUrl}/payhub/auth/token`
+  );
 
   url.searchParams.append("grant_type", grant_type);
   url.searchParams.append("client_id", client_id);
@@ -45,6 +52,7 @@ export function postToken_tokenExchange(
   subject_token_type = "urn:ietf:params:oauth:token-type:jwt"
 ) {
   return postToken(
+    true,
     "urn:ietf:params:oauth:grant-type:token-exchange",
     client_id,
     undefined,
@@ -65,8 +73,17 @@ export function postToken_tokenExchangeFake(
   );
 }
 
-export function postToken_clientCredentials(client_id, client_secret) {
-  return postToken("client_credentials", client_id, client_secret);
+export function postToken_clientCredentials(
+  useInnerBaseUrl,
+  client_id,
+  client_secret
+) {
+  return postToken(
+    useInnerBaseUrl,
+    "client_credentials",
+    client_id,
+    client_secret
+  );
 }
 
 export function getUserInfo(token) {
@@ -74,6 +91,32 @@ export function getUserInfo(token) {
   const myParams = buildDefaultParams(apiName, token);
 
   const res = http.get(`${baseUrl}/payhub/auth/userinfo`, myParams);
+  logResult(apiName, res);
+  return res;
+}
+
+export function registerClient(token, ipaCode, clientName) {
+  const apiName = AUTH_API_NAMES.registerClient;
+  const myParams = buildDefaultParams(apiName, token);
+
+  const res = http.post(
+    `${baseUrl}/payhub/auth/clients/${ipaCode}`,
+    JSON.stringify({ clientName }),
+    myParams
+  );
+  logResult(apiName, res);
+  return res;
+}
+
+export function revokeClient(token, ipaCode, clientId) {
+  const apiName = AUTH_API_NAMES.revokeClient;
+  const myParams = buildDefaultParams(apiName, token);
+
+  const res = http.del(
+    `${baseUrl}/payhub/auth/clients/${ipaCode}/${clientId}`,
+    undefined,
+    myParams
+  );
   logResult(apiName, res);
   return res;
 }

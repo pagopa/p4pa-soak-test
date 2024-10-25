@@ -18,10 +18,12 @@ export const options = defaultApiOptionsBuilder(
 // K6 summary configuration
 export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 
+// BeforeAll
 export function setup() {
   return { token: getAuthToken() };
 }
 
+// Test
 export default (data) => {
   const result = getUserInfo(data.token);
 

@@ -27,13 +27,19 @@ export const CONFIG = {
         TOKEN_EXCHANGE: __ENV.SELFCARE_TOKEN_EXCHANGE_ENV,
         ISSUER: __ENV.SELFCARE_TOKEN_ISSUER_ENV,
       },
-      CLIENT_SECRET_PU: __ENV.CLIENT_SECRET_PU_ENV,
+      PU: {
+        CLIENT_ID: "piattaforma-unitaria",
+        CLIENT_SECRET: __ENV.CLIENT_SECRET_PU_ENV,
+      },
     },
     EXTERNAL_USER_ID: __ENV.EXTERNAL_USER_ID_ENV,
+    ORG_IPA_CODE: coalesce(__ENV.ORG_IPA_CODE_ENV, "IPA_TEST_2"),
   },
 
   SCENARIOS: {
-    TYPES: coalesce(__ENV.SCENARIO_TYPE_ENV, "ALL").split(","),
+    TYPES: coalesce(__ENV.SCENARIO_TYPE_ENV, "constant-arrival-rate").split(
+      ","
+    ),
 
     perVuIterations: {
       RAMPING_SIZE:
