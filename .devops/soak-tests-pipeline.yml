@@ -165,7 +165,7 @@ jobs:
                       -e SCENARIO_TYPE_ENV=${{ variables.SCENARIO_TYPE_ENV }} \
                       \
                       -e SELFCARE_TOKEN_EXCHANGE_ENV=${{ variables.SELFCARE_TOKEN_EXCHANGE_ENV }} \
-                      -e CLIENT_SECRET_PU_ENV=${ variables.CLIENT_SECRET_PU_ENV }} \
+                      -e CLIENT_SECRET_PU_ENV=${{ variables.CLIENT_SECRET_PU_ENV }} \
                       -e EXTERNAL_USER_ID_ENV=${{ variables.EXTERNAL_USER_ID_ENV }} \
                       \
                       -e VUS_MAX_ENV=${{ parameters.VUS_MAX_ENV }} \
