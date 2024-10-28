@@ -141,10 +141,11 @@ jobs:
                 secureFile: $(postmanEnvFile)
 
             - script: |
-                SELFCARE_TOKEN_EXCHANGE_ENV=$(jq '.values [] | select(.key=="tokenExchange_subjectToken") | .value'  $(postman_env.secureFilePath))
+                echo SELFCARE_TOKEN_EXCHANGE_ENV=$(jq '.values [] | select(.key=="tokenExchange_subjectToken") | .value'  $(postman_env.secureFilePath))
                 echo "##vso[task.setvariable variable=SELFCARE_TOKEN_EXCHANGE_ENV;isOutput=true]$SELFCARE_TOKEN_EXCHANGE_ENV"
                 \
                 CLIENT_SECRET_PU_ENV=$(jq '.values [] | select(.key=="client_secret-pu") | .value'  $(postman_env.secureFilePath))
+                echo $CLIENT_SECRET_PU_ENV
                 echo "##vso[task.setvariable variable=CLIENT_SECRET_PU_ENV;isOutput=true]$CLIENT_SECRET_PU_ENV"
               displayName: Read secrets
 
