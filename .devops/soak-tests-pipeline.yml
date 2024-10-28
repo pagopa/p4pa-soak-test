@@ -141,11 +141,10 @@ jobs:
                 secureFile: $(postmanEnvFile)
 
             - script: |
-                echo SELFCARE_TOKEN_EXCHANGE_ENV=$(jq '.values [] | select(.key=="tokenExchange_subjectToken") | .value'  $(postman_env.secureFilePath))
+                SELFCARE_TOKEN_EXCHANGE_ENV=$(jq '.values [] | select(.key=="tokenExchange_subjectToken") | .value'  $(postman_env.secureFilePath))
                 echo "##vso[task.setvariable variable=SELFCARE_TOKEN_EXCHANGE_ENV;isOutput=true]$SELFCARE_TOKEN_EXCHANGE_ENV"
                 \
                 CLIENT_SECRET_PU_ENV=$(jq '.values [] | select(.key=="client_secret-pu") | .value'  $(postman_env.secureFilePath))
-                echo $CLIENT_SECRET_PU_ENV
                 echo "##vso[task.setvariable variable=CLIENT_SECRET_PU_ENV;isOutput=true]$CLIENT_SECRET_PU_ENV"
               displayName: Read secrets
 
@@ -155,6 +154,8 @@ jobs:
 
             - ${{ each k6Test in split(variables.SCRIPTS_TO_EXECUTE, ',') }}:
                 - script: |
+                    echo 1 $CLIENT_SECRET_PU_ENV 
+                    echo 2 ${{ variables.CLIENT_SECRET_PU_ENV }
                     chmod +x runAll.sh
                     chmod +x run.sh
                     docker run --rm \
