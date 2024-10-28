@@ -184,6 +184,8 @@ jobs:
                       ${{ parameters.TARGET_ENV }} ${{k6Test}}.js
                   condition: true
                   displayName: Run k6 ${{k6Test}}.js on ${{ parameters.TARGET_ENV }}
+                  env:
+                    CLIENT_SECRET_PU_ENV: $(CLIENT_SECRET_PU_ENV)
 
             - task: PublishTestResults@2
               condition: true
