@@ -155,7 +155,7 @@ jobs:
             - ${{ each k6Test in split(variables.SCRIPTS_TO_EXECUTE, ',') }}:
                 - script: |
                     echo 1 $CLIENT_SECRET_PU_ENV 
-                    echo 2 ${{ variables.CLIENT_SECRET_PU_ENV }
+                    echo 2 ${{ variables.CLIENT_SECRET_PU_ENV }}
                     chmod +x runAll.sh
                     chmod +x run.sh
                     docker run --rm \
