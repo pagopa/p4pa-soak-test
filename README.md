@@ -22,6 +22,7 @@ The following environment variables allow to configure the scenarios discuessed 
 
 | ENV                                  | Description                                                                                                                                                                                 | Default |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| CLIENT_SECRET_PU_ENV                 | piattaforma-unitaria's client secret                                                                                                                                                        |
 | SELFCARE_TOKEN_EXCHANGE_ENV          | The Selfcare's ID token used for the token exchange authentication flow                                                                                                                     |
 | ORG_IPA_CODE_ENV                     | The IPA code of an organization whose the user logged has admin rights                                                                                                                      |
 | EXTERNAL_USER_ID_ENV                 | The external user id to use during fake auth                                                                                                                                                |

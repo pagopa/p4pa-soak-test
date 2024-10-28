@@ -22,9 +22,14 @@ parameters:
   - name: "SCRIPT"
     displayName: "Script name"
     type: string
-    default: "getTransactions"
+    default: "auth/getUserInfo"
     values:
-      - getUserInfo
+      - auth/getUserInfo
+      - auth/postToken_clientCredentials_PU
+      - auth/postToken_clientCredentials_SIL
+      - auth/postToken_tokenExchange
+      - auth/registerRevokeClient
+      - mypay/configAndLogin
 
   - name: "SCENARIO"
     displayName: "Soak test type"
@@ -70,17 +75,18 @@ variables:
   - name: k6Test_getTransactions
     value: transactions/getTransactions
 
-  - name: k6Test_getUserInfo
+  - name: k6Test_auth/getUserInfo
     value: auth/getUserInfo
-
-  - name: k6Test_getNoticesList
-    value: notices/getNoticesList
-
-  - name: k6Test_getNoticeDetails
-    value: notices/getNoticeDetails
-
-  - name: k6Test_getNoticeReceipt
-    value: notices/getNoticeReceipt
+  - name: k6Test_auth/postToken_clientCredentials_PU
+    value: auth/postToken_clientCredentials_PU
+  - name: k6Test_auth/postToken_clientCredentials_SIL
+    value: auth/postToken_clientCredentials_SIL
+  - name: k6Test_auth/postToken_tokenExchange
+    value: auth/postToken_tokenExchange
+  - name: k6Test_auth/registerRevokeClient
+    value: auth/registerRevokeClient
+  - name: k6Test_mypay/configAndLogin
+    value: mypay/configAndLogin
 
   # Resolved list of k6 script to execute
   - name: SCRIPTS_TO_EXECUTE
@@ -90,6 +96,8 @@ variables:
   - ${{ if eq(parameters.TARGET_ENV, 'dev') }}:
       - name: selfHostedAgentPool
         value: $(DEV_AGENT_POOL)
+      - name: postmanEnvFile
+        value: p4pa_DEV.postman_environment.json
       - name: EXTERNAL_USER_ID_ENV
         value: e1d9c534-86a9-4039-80da-8aa7a33ac9e7
       - name: SELFCARE_TOKEN_ISSUER_ENV
@@ -97,6 +105,8 @@ variables:
   - ${{ else }}:
       - name: selfHostedAgentPool
         value: $(UAT_AGENT_POOL)
+      - name: postmanEnvFile
+        value: p4pa_UAT.postman_environment.json
       - name: EXTERNAL_USER_ID_ENV
         value: ac7dc9a0-80e0-49b5-8622-501672310a08
       - name: SELFCARE_TOKEN_ISSUER_ENV
@@ -124,9 +134,19 @@ jobs:
               displayName: Checkout
               fetchDepth: 1
 
+            - task: DownloadSecureFile@1
+              displayName: "download postman environment"
+              name: postman_env
+              inputs:
+                secureFile: $(postmanEnvFile)
+
             - script: |
-                jq
-              displayName: Prova
+                SELFCARE_TOKEN_EXCHANGE_ENV=$(jq '.values [] | select(.key=="tokenExchange_subjectToken") | .value'  $(postman_env.secureFilePath)
+                echo "##vso[task.setvariable variable=SELFCARE_TOKEN_EXCHANGE_ENV;isOutput=true]$SELFCARE_TOKEN_EXCHANGE_ENV"
+                \
+                CLIENT_SECRET_PU_ENV=$(jq '.values [] | select(.key=="client_secret-pu") | .value'  $(postman_env.secureFilePath)
+                echo "##vso[task.setvariable variable=CLIENT_SECRET_PU_ENV;isOutput=true]$CLIENT_SECRET_PU_ENV"
+              displayName: Read secrets
 
             - script: |
                 docker pull grafana/k6:latest
@@ -144,6 +164,8 @@ jobs:
                       -e USE_INTERNAL_ACCESS_ENV=${{ parameters.USE_INTERNAL_ACCESS_ENV }} \
                       -e SCENARIO_TYPE_ENV=${{ variables.SCENARIO_TYPE_ENV }} \
                       \
+                      -e SELFCARE_TOKEN_EXCHANGE_ENV=$(SELFCARE_TOKEN_EXCHANGE_ENV) \
+                      -e CLIENT_SECRET_PU_ENV=$(CLIENT_SECRET_PU_ENV) \
                       -e EXTERNAL_USER_ID_ENV=${{ variables.EXTERNAL_USER_ID_ENV }} \
                       \
                       -e VUS_MAX_ENV=${{ parameters.VUS_MAX_ENV }} \
