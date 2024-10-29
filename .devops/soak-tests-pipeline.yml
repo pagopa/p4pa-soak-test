@@ -76,17 +76,17 @@ variables:
     value: transactions/getTransactions
 
   - name: k6Test_auth/getUserInfo
-    value: auth/getUserInfo
+    value: auth/getUserInfo.js
   - name: k6Test_auth/postToken_clientCredentials_PU
-    value: auth/postToken_clientCredentials_PU
+    value: auth/postToken_clientCredentials_PU.js
   - name: k6Test_auth/postToken_clientCredentials_SIL
-    value: auth/postToken_clientCredentials_SIL
+    value: auth/postToken_clientCredentials_SIL.js
   - name: k6Test_auth/postToken_tokenExchange
-    value: auth/postToken_tokenExchange
+    value: auth/postToken_tokenExchange.js
   - name: k6Test_auth/registerRevokeClient
-    value: auth/registerRevokeClient
+    value: auth/registerRevokeClient.js
   - name: k6Test_mypay/configAndLogin
-    value: mypay/configAndLogin
+    value: mypay/configAndLogin.js
 
   # Resolved list of k6 script to execute
   - name: SCRIPTS_TO_EXECUTE
@@ -190,7 +190,7 @@ jobs:
                       \
                       --entrypoint /app/runAll.sh \
                       grafana/k6:latest \
-                      ${{ parameters.TARGET_ENV }} ${{k6Test}}.js
+                      ${{ parameters.TARGET_ENV }} ${{k6Test}}
                   condition: true
                   displayName: Run k6 ${{k6Test}}.js on ${{ parameters.TARGET_ENV }}
                   env:

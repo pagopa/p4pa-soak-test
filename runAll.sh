@@ -15,8 +15,8 @@ set -e
 
 ENV=$1
 
-if [[ -z "$ENV" || ! $(echo $ENV | grep  -E "^(DEV|UAT|PROD)$") ]]; then
-  echo "Usage: ./runAll.sh <DEV|UAT|PROD> [folder]"
+if [[ -z "$ENV" || ! $(echo $ENV | grep  -E "^(DEV|UAT)$") ]]; then
+  echo "Usage: ./runAll.sh <DEV|UAT> [folder]"
   exit 0
 fi
 
@@ -24,6 +24,7 @@ FINAL_EXIT_CODE=0
 
 for TEST in $(find $TESTS_DIR -iname *$K6_TEST_FILEEXT); do
 	$CURRENT_DIR/run.sh $ENV $TEST || TEST_EXIT_CODE=$?
+  echo prova
 
   if [[ $TEST_EXIT_CODE != 0 ]]; then
     FINAL_EXIT_CODE=$TEST_EXIT_CODE
