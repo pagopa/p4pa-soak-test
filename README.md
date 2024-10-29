@@ -18,15 +18,25 @@ All configured tests as default will be executed simulating the following worklo
 
 ## Configuration
 
+# Context
+
+The following environment variables allow to configure the test context data:
+
+| ENV                         | Description                                                             | Default |
+| --------------------------- | ----------------------------------------------------------------------- | ------- |
+| TARGET_ENV                  | The environment to test                                                 |         |
+| ORG_IPA_CODE_ENV            | The IPA code of an organization whose the user logged has admin rights  |         |
+| EXTERNAL_USER_ID_ENV        | The external user id to use during fake auth                            |         |
+| SELFCARE_TOKEN_EXCHANGE_ENV | The Selfcare's ID token used for the token exchange authentication flow |         |
+| SELFCARE_TOKEN_ISSUER_ENV   | The Selfcare's ID token issuer's claim                                  |         |
+| CLIENT_SECRET_PU_ENV        | piattaforma-unitaria's client secret                                    |         |
+
+# Scenario
+
 The following environment variables allow to configure the scenarios discuessed above:
 
 | ENV                                  | Description                                                                                                                                                                                 | Default |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| CLIENT_SECRET_PU_ENV                 | piattaforma-unitaria's client secret                                                                                                                                                        |
-| SELFCARE_TOKEN_EXCHANGE_ENV          | The Selfcare's ID token used for the token exchange authentication flow                                                                                                                     |
-| ORG_IPA_CODE_ENV                     | The IPA code of an organization whose the user logged has admin rights                                                                                                                      |
-| EXTERNAL_USER_ID_ENV                 | The external user id to use during fake auth                                                                                                                                                |
-| TARGET_ENV                           | The environment to test                                                                                                                                                                     |         |
 | USE_INTERNAL_ACCESS_ENV              | If use always internal base url or not                                                                                                                                                      | false   |
 | RESULTS_DIR                          | The directory inside which create the results dir                                                                                                                                           | .       |
 | REQ_DUMP                             | A boolen to log all requests or not                                                                                                                                                         | false   |

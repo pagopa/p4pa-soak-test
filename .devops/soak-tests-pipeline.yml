@@ -98,17 +98,24 @@ variables:
         value: $(DEV_AGENT_POOL)
       - name: postmanEnvFile
         value: p4pa_DEV.postman_environment.json
+
       - name: EXTERNAL_USER_ID_ENV
         value: e1d9c534-86a9-4039-80da-8aa7a33ac9e7
+      - name: ORG_IPA_CODE_ENV
+        value: IPA_TEST_2
       - name: SELFCARE_TOKEN_ISSUER_ENV
         value: https://dev.selfcare.pagopa.it
+
   - ${{ else }}:
       - name: selfHostedAgentPool
         value: $(UAT_AGENT_POOL)
       - name: postmanEnvFile
         value: p4pa_UAT.postman_environment.json
+
       - name: EXTERNAL_USER_ID_ENV
         value: ac7dc9a0-80e0-49b5-8622-501672310a08
+      - name: ORG_IPA_CODE_ENV
+        value: IPA_TEST_2
       - name: SELFCARE_TOKEN_ISSUER_ENV
         value: https://uat.selfcare.pagopa.it
 
@@ -149,8 +156,12 @@ jobs:
               displayName: Read secrets
 
             - script: |
+                echo 1 $CLIENT_SECRET_PU_ENV 
+                echo 2 ${{ variables.CLIENT_SECRET_PU_ENV }}
                 docker pull grafana/k6:latest
               displayName: Pull k6 image
+              env:
+                CLIENT_SECRET_PU_ENV: $(CLIENT_SECRET_PU_ENV)
 
             - ${{ each k6Test in split(variables.SCRIPTS_TO_EXECUTE, ',') }}:
                 - script: |
@@ -166,9 +177,11 @@ jobs:
                       -e USE_INTERNAL_ACCESS_ENV=${{ parameters.USE_INTERNAL_ACCESS_ENV }} \
                       -e SCENARIO_TYPE_ENV=${{ variables.SCENARIO_TYPE_ENV }} \
                       \
-                      -e SELFCARE_TOKEN_EXCHANGE_ENV=${{ variables.SELFCARE_TOKEN_EXCHANGE_ENV }} \
-                      -e CLIENT_SECRET_PU_ENV=${{ variables.CLIENT_SECRET_PU_ENV }} \
+                      -e ORG_IPA_CODE_ENV=${{ variables.ORG_IPA_CODE_ENV }} \
                       -e EXTERNAL_USER_ID_ENV=${{ variables.EXTERNAL_USER_ID_ENV }} \
+                      -e SELFCARE_TOKEN_EXCHANGE_ENV=${{ variables.SELFCARE_TOKEN_EXCHANGE_ENV }} \
+                      -e SELFCARE_TOKEN_ISSUER_ENV=${{ variables.SELFCARE_TOKEN_ISSUER_ENV }} \
+                      -e CLIENT_SECRET_PU_ENV=${{ variables.CLIENT_SECRET_PU_ENV }} \
                       \
                       -e VUS_MAX_ENV=${{ parameters.VUS_MAX_ENV }} \
                       -e SCENARIO_DURATION_ENV=${{ parameters.SCENARIO_DURATION_ENV }} \
