@@ -149,9 +149,10 @@ jobs:
 
             - script: |
                 function extractSecret() {
-                echo jq '.values [] | select(.key=="$1") | .value'  $(postman_env.secureFilePath)
-                  VALUE=$(jq '.values [] | select(.key=="$1") | .value'  $(postman_env.secureFilePath))
-                  echo "##vso[task.setvariable variable=$2]$VALUE"
+                  $SECRET_KEY=$1
+                  $ENV_NAME=$2
+                  VALUE=$(jq '.values [] | select(.key=="'$SECRET_KEY'") | .value'  $(postman_env.secureFilePath))
+                  echo "##vso[task.setvariable variable=$ENV_NAME]$VALUE"
                 }
 
                 extractSecret tokenExchange_subjectToken SELFCARE_TOKEN_EXCHANGE_ENV
