@@ -156,7 +156,6 @@ jobs:
               displayName: Read secrets
 
             - script: |
-                echo 4 $(CLIENT_SECRET_PU_ENV)
                 docker pull grafana/k6:latest
               displayName: Pull k6 image
 
@@ -176,9 +175,9 @@ jobs:
                       \
                       -e ORG_IPA_CODE_ENV=${{ variables.ORG_IPA_CODE_ENV }} \
                       -e EXTERNAL_USER_ID_ENV=${{ variables.EXTERNAL_USER_ID_ENV }} \
-                      -e SELFCARE_TOKEN_EXCHANGE_ENV=${{ variables.SELFCARE_TOKEN_EXCHANGE_ENV }} \
+                      -e SELFCARE_TOKEN_EXCHANGE_ENV=$(SELFCARE_TOKEN_EXCHANGE_ENV) \
                       -e SELFCARE_TOKEN_ISSUER_ENV=${{ variables.SELFCARE_TOKEN_ISSUER_ENV }} \
-                      -e CLIENT_SECRET_PU_ENV=${{ variables.CLIENT_SECRET_PU_ENV }} \
+                      -e CLIENT_SECRET_PU_ENV=$(CLIENT_SECRET_PU_ENV) \
                       \
                       -e VUS_MAX_ENV=${{ parameters.VUS_MAX_ENV }} \
                       -e SCENARIO_DURATION_ENV=${{ parameters.SCENARIO_DURATION_ENV }} \
