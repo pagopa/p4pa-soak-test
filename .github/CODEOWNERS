@@ -1,3 +1,1 @@
-# see https://help.github.com/en/articles/about-code-owners#example-of-a-codeowners-file
-
-* @pagopa/p4pa-admins @antonioT90 @antocalo @LarissaASLeite @Benedetta-fabbri
+- @pagopa/p4pa-admins @antonioT90 @LarissaASLeite @antocalo @Benedetta-fabbri
