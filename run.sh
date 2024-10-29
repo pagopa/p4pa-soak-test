@@ -28,7 +28,6 @@ fi
 
 echo "Running $TEST_FILE"
 
-echo mkdir -p $RESULTS_DIR/results/$(dirname $(echo $TEST_FILE | sed -e 's/^.*src\/tests\///'))
 mkdir -p $RESULTS_DIR/results/$(dirname $(echo $TEST_FILE | sed -e 's/^.*src\/tests\///'))
 
 $K6_BINARY run $TEST_FILE
