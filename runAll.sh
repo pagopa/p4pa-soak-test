@@ -26,8 +26,8 @@ for TEST in $(find $TESTS_DIR -iname *$K6_TEST_FILEEXT); do
 	$CURRENT_DIR/run.sh $ENV $TEST || TEST_EXIT_CODE=$?
 
   if [[ $TEST_EXIT_CODE != 0 ]]; then
-    FINAL_EXIT_CODE=$TEST_EXIT_CODE
   echo prova
+    FINAL_EXIT_CODE=$TEST_EXIT_CODE
   fi
   
 
