@@ -158,7 +158,8 @@ jobs:
             - script: |
                 echo 1 $CLIENT_SECRET_PU_ENV 
                 echo 2 ${{ variables.CLIENT_SECRET_PU_ENV }}
-                echo 1 $(CLIENT_SECRET_PU_ENV) 
+                echo 3 $(CLIENT_SECRET_PU_ENV) 
+                echo 4 $[ variables.CLIENT_SECRET_PU_ENV ]
                 docker pull grafana/k6:latest
               displayName: Pull k6 image
               env:
