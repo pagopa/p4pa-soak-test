@@ -149,6 +149,7 @@ jobs:
 
             - script: |
                 function extractSecret() {
+                echo jq '.values [] | select(.key=="$1") | .value'  $(postman_env.secureFilePath)
                   VALUE=$(jq '.values [] | select(.key=="$1") | .value'  $(postman_env.secureFilePath))
                   echo "##vso[task.setvariable variable=$2]$VALUE"
                 }
