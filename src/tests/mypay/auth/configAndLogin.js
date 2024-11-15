@@ -28,6 +28,5 @@ export default () => {
 
   if (result.status !== 200) {
     logErrorResult(testName, `Unexpected configAndLogin status`, result, true);
-    return;
   }
 };

@@ -4,7 +4,7 @@ import {
 } from "https://jslib.k6.io/k6-utils/1.1.0/index.js";
 import papaparse from "https://jslib.k6.io/papaparse/5.1.1/index.js";
 import exec from "k6/execution";
-import { postToken_tokenExchangeFake } from "../api/auth.js";
+import { postToken_tokenExchangeFake } from "../api/auth/authn/auth.js";
 import { getScenarioTestEntity, logResult } from "./dynamicScenarios/utils.js";
 
 /** It will return o1 if define, otherwise it will return o2 */
