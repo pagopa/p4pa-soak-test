@@ -9,7 +9,7 @@ import {
   logErrorResult,
   testEntitiesBasedScenariosBaseIndexRetriever,
 } from "../../../common/dynamicScenarios/utils.js";
-import { getAuthToken } from "../../../common/utils.js";
+import {getAuthToken, randomFiscalCode} from "../../../common/utils.js";
 import { CONFIG } from "../../../common/envVars.js";
 
 const application = "auth";
@@ -33,8 +33,17 @@ export function setup() {
 // Test
 export default (data) => {
   const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
-  const clientName = `SOAKTEST_CLIENTNAME_${testEntitiesBasedScenariosBaseIndexRetriever()}`;
-  const result = createOrganizationOperator(data.token, ipaCode, clientName);
+  let createOperatorRequest = {
+      firstName: 'Mario',
+      lastName: 'Rossi',
+      externalUserId: CONFIG.CONTEXT.EXTERNAL_USER_ID,
+      fiscalCode: randomFiscalCode(),
+      organizationIpaCode: ipaCode,
+      email: 'rossi@mail.it',
+      roles: []
+  };
+
+  const result = createOrganizationOperator(data.token, ipaCode, createOperatorRequest);
 
   assert(result, [statusOk()]);
 

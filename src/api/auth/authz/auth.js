@@ -40,7 +40,7 @@ export function revokeClient(token, ipaCode, clientId) {
   return res;
 }
 
-export function createOrganizationOperator(token, organizationIpaCode, clientName) {
+export function createOrganizationOperator(token, organizationIpaCode, clientOperatorRequest) {
   const apiName = AUTH_API_NAMES.createOrganizationOperator;
   const myParams = buildDefaultParams(apiName, token);
 
@@ -48,7 +48,7 @@ export function createOrganizationOperator(token, organizationIpaCode, clientNam
 
   const res = http.post(
       url,
-      JSON.stringify(clientName),
+      JSON.stringify(clientOperatorRequest),
       myParams);
   logResult(apiName, res);
 
