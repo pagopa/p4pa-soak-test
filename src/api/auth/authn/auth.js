@@ -98,7 +98,9 @@ export function logout(clientId, token) {
   const apiName = AUTH_API_NAMES.logout;
   const myParams = buildDefaultParams(apiName);
 
-  const url = `${baseUrl}/payhub/auth/revoke`;
+  const url = new URL(
+      `${baseUrl}/payhub/auth/revoke`
+  );
   url.searchParams.append("client_id", clientId);
   url.searchParams.append("token", token);
 
