@@ -29,6 +29,7 @@ parameters:
       - auth/postToken_clientCredentials_SIL
       - auth/postToken_tokenExchange
       - auth/registerRevokeClient
+      - auth/logout
       - mypay/configAndLogin
 
   - name: "SCENARIO"
@@ -76,15 +77,17 @@ variables:
     value: transactions/getTransactions
 
   - name: k6Test_auth/getUserInfo
-    value: auth/getUserInfo.js
+    value: auth/authn/getUserInfo.js
   - name: k6Test_auth/postToken_clientCredentials_PU
-    value: auth/postToken_clientCredentials_PU.js
+    value: auth/authn/postToken_clientCredentials_PU.js
   - name: k6Test_auth/postToken_clientCredentials_SIL
-    value: auth/postToken_clientCredentials_SIL.js
+    value: auth/authn/postToken_clientCredentials_SIL.js
   - name: k6Test_auth/postToken_tokenExchange
-    value: auth/postToken_tokenExchange.js
+    value: auth/authn/postToken_tokenExchange.js
   - name: k6Test_auth/registerRevokeClient
-    value: auth/registerRevokeClient.js
+    value: auth/authz/registerRevokeClient.js
+  - name: k6Test_auth/logout
+    value: auth/authn/logout.js
   - name: k6Test_mypay/configAndLogin
     value: mypay/configAndLogin.js
 
