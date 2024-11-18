@@ -46,7 +46,10 @@ export function createOrganizationOperator(token, organizationIpaCode, clientNam
 
   const url = `${baseUrl}/payhub/am/operators/${organizationIpaCode})`;
 
-  const res = http.post(url, JSON.stringify(clientName), myParams);
+  const res = http.post(
+      url,
+      JSON.stringify(clientName),
+      myParams);
   logResult(apiName, res);
 
   return res;
