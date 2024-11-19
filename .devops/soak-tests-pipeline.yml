@@ -29,7 +29,6 @@ parameters:
       - auth/postToken_clientCredentials_SIL
       - auth/postToken_tokenExchange
       - auth/logout
-      - auth/createOrganizationOperator
       - auth/registerRevokeClient
       - mypay/configAndLogin
 
@@ -87,8 +86,6 @@ variables:
     value: auth/authn/postToken_tokenExchange.js
   - name: k6Test_auth/logout
     value: auth/authn/logout.js
-  - name: k6Test_auth/createOrganizationOperator
-    value: auth/authz/createOrganizationOperator.js
   - name: k6Test_auth/registerRevokeClient
     value: auth/authz/registerRevokeClient.js
   - name: k6Test_mypay/configAndLogin

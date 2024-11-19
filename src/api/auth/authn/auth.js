@@ -13,7 +13,7 @@ export const AUTH_API_NAMES = {
 const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
 const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
   ? innerBaseUrl
-  : `${getBaseUrl()}/auth`;
+  : `${getBaseUrl()}`;
 
 export function postToken(
   useInnerBaseUrl,
