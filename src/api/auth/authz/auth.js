@@ -60,7 +60,7 @@ export function deleteOrganizationOperator(token, organizationIpaCode, mappedExt
 
   const url = `${innerBaseUrl}/payhub/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
 
-  const res = http.delete(
+  const res = http.del(
       url,
       null,
       myParams);
