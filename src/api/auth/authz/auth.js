@@ -2,7 +2,7 @@ import http from "k6/http";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams, CONFIG } from "../../../common/envVars.js";
 import { getBaseUrl, getInnerBaseUrl } from "../../../common/environment.js";
-import {randomFiscalCode} from "../../../common/utils";
+import {randomFiscalCode} from "../../../common/utils.js";
 
 export const AUTH_API_NAMES = {
   registerClient: "auth/registerClient",
