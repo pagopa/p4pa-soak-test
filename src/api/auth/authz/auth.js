@@ -64,7 +64,7 @@ export function getClientSecret(token, organizationIpaCode, clientId) {
   const apiName = AUTH_API_NAMES.getClientSecret;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${innerBaseUrl}/payhub/clients/${organizationIpaCode}/${clientId}`;
+  const url = `${innerBaseUrl}/payhub/auth/clients/${organizationIpaCode}/${clientId}`;
 
   const res = http.get(
       url,
@@ -79,7 +79,7 @@ export function getClients(token, organizationIpaCode) {
   const apiName = AUTH_API_NAMES.getClientSecret;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${innerBaseUrl}/payhub/clients/${organizationIpaCode}`;
+  const url = `${innerBaseUrl}/payhub/auth/clients/${organizationIpaCode}`;
 
   const res = http.get(
       url,
@@ -125,7 +125,7 @@ export function getUserInfoFromMappedExternaUserId(token, mappedExternalUserId) 
   const apiName = AUTH_API_NAMES.getUserInfoFromMappedExternaUserId;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${innerBaseUrl}/payhub/am/operators/${mappedExternalUserId}`;
+  const url = `${innerBaseUrl}/payhub/auth/userinfo/${mappedExternalUserId}`;
 
   const res = http.get(
       url,
