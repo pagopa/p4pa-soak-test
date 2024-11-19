@@ -39,8 +39,6 @@ export function postToken(
   url.searchParams.append("subject_token_type", subject_token_type);
   url.searchParams.append("scope", "openid");
 
-  console.log("URL: " + url.toString());
-
   const res = http.post(url.toString(), null, myParams);
   logResult(apiName, res);
   return res;

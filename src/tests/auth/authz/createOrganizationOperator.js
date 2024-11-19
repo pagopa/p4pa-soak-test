@@ -43,9 +43,6 @@ export default (data) => {
       roles: []
   };
 
-  console.log("TOKEN: " + data.token);
-  console.log("CREATE OPERATOR REQUEST: " + createOperatorRequest);
-  console.log("IPACODE: " + ipaCode);
   const result = createOrganizationOperator(data.token, ipaCode, createOperatorRequest);
 
   assert(result, [statusOk()]);

@@ -10,9 +10,7 @@ export const AUTH_API_NAMES = {
 };
 
 const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
-const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
-  ? innerBaseUrl
-  : `${getBaseUrl()}/auth`;
+const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV ? innerBaseUrl : `${getBaseUrl()}`;
 
 export function registerClient(token, ipaCode, clientName) {
   const apiName = AUTH_API_NAMES.registerClient;
