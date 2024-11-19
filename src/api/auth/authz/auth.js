@@ -2,12 +2,18 @@ import http from "k6/http";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams, CONFIG } from "../../../common/envVars.js";
 import { getBaseUrl, getInnerBaseUrl } from "../../../common/environment.js";
+import {randomFiscalCode} from "../../../common/utils";
 
 export const AUTH_API_NAMES = {
   registerClient: "auth/registerClient",
   revokeClient: "auth/revokeClient",
   createOrganizationOperator: "auth/createOrganizationOperator",
-  deleteOrganizationOperator: "auth/deleteOrganizationOperator"
+  deleteOrganizationOperator: "auth/deleteOrganizationOperator",
+  getClientSecret: "auth/getClientSecret",
+  getClients: "auth/getClients",
+  getOrganizationOperator: "auth/getOrganizationOperator",
+  getOrganizationOperators: "auth/getOrganizationOperators",
+  getUserInfoFromMappedExternaUserId: "auth/getUserInfoFromMappedExternaUserId"
 };
 
 const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
@@ -39,21 +45,6 @@ export function revokeClient(token, ipaCode, clientId) {
   return res;
 }
 
-export function createOrganizationOperator(token, organizationIpaCode, clientOperatorRequest) {
-  const apiName = AUTH_API_NAMES.createOrganizationOperator;
-  const myParams = buildDefaultParams(apiName, token);
-
-  const url = `${innerBaseUrl}/payhub/am/operators/${organizationIpaCode}`;
-
-  const res = http.post(
-      url,
-      JSON.stringify(clientOperatorRequest),
-      myParams);
-  logResult(apiName, res);
-
-  return res;
-}
-
 export function deleteOrganizationOperator(token, organizationIpaCode, mappedExternalUserId) {
   const apiName = AUTH_API_NAMES.deleteOrganizationOperator;
   const myParams = buildDefaultParams(apiName, token);
@@ -61,6 +52,82 @@ export function deleteOrganizationOperator(token, organizationIpaCode, mappedExt
   const url = `${innerBaseUrl}/payhub/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
 
   const res = http.del(
+      url,
+      null,
+      myParams);
+  logResult(apiName, res);
+
+  return res;
+}
+
+export function getClientSecret(token, organizationIpaCode, clientId) {
+  const apiName = AUTH_API_NAMES.getClientSecret;
+  const myParams = buildDefaultParams(apiName, token);
+
+  const url = `${innerBaseUrl}/payhub/clients/${organizationIpaCode}/${clientId}`;
+
+  const res = http.get(
+      url,
+      null,
+      myParams);
+  logResult(apiName, res);
+
+  return res;
+}
+
+export function getClients(token, organizationIpaCode) {
+  const apiName = AUTH_API_NAMES.getClientSecret;
+  const myParams = buildDefaultParams(apiName, token);
+
+  const url = `${innerBaseUrl}/payhub/clients/${organizationIpaCode}`;
+
+  const res = http.get(
+      url,
+      null,
+      myParams);
+  logResult(apiName, res);
+
+  return res;
+}
+
+export function getOrganizationOperator(token, organizationIpaCode, mappedExternalUserId) {
+  const apiName = AUTH_API_NAMES.getOrganizationOperator;
+  const myParams = buildDefaultParams(apiName, token);
+
+  const url = `${innerBaseUrl}/payhub/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
+
+  const res = http.get(
+      url,
+      null,
+      myParams);
+  logResult(apiName, res);
+
+  return res;
+}
+
+export function getOrganizationOperators(token, organizationIpaCode) {
+  const apiName = AUTH_API_NAMES.getOrganizationOperators;
+  const myParams = buildDefaultParams(apiName, token);
+
+  const url = `${innerBaseUrl}/payhub/am/operators/${organizationIpaCode}`;
+  url.searchParams.append("fiscalCode", randomFiscalCode());
+
+  const res = http.get(
+      url,
+      null,
+      myParams);
+  logResult(apiName, res);
+
+  return res;
+}
+
+export function getUserInfoFromMappedExternaUserId(token, mappedExternalUserId) {
+  const apiName = AUTH_API_NAMES.getUserInfoFromMappedExternaUserId;
+  const myParams = buildDefaultParams(apiName, token);
+
+  const url = `${innerBaseUrl}/payhub/am/operators/${mappedExternalUserId}`;
+
+  const res = http.get(
       url,
       null,
       myParams);
