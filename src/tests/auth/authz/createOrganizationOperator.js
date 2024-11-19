@@ -33,7 +33,7 @@ export function setup() {
 // Test
 export default (data) => {
   const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
-  let createOperatorRequest = {
+  const createOperatorRequest = {
       firstName: 'Mario',
       lastName: 'Rossi',
       externalUserId: CONFIG.CONTEXT.EXTERNAL_USER_ID,
@@ -43,6 +43,9 @@ export default (data) => {
       roles: []
   };
 
+  console.log("TOKEN: " + data.token);
+  console.log("CREATE OPERATOR REQUEST: " + createOperatorRequest);
+  console.log("IPACODE: " + ipaCode);
   const result = createOrganizationOperator(data.token, ipaCode, createOperatorRequest);
 
   assert(result, [statusOk()]);
