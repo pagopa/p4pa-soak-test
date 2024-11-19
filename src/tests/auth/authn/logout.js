@@ -26,7 +26,7 @@ export function setup() {
 
 // Test
 export default (data) => {
-  const clientId = `${CONFIG.CONTEXT.AUTH.PU.CLIENT_ID}_${CONFIG.CONTEXT.ORG_IPA_CODE}`;
+  const clientId = `${CONFIG.CONTEXT.AUTH.PU.CLIENT_ID}`;
   const result = logout(clientId, data.token);
 
   assert(result, [statusOk()]);
