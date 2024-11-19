@@ -42,7 +42,7 @@ export function createOrganizationOperator(token, organizationIpaCode, clientOpe
   const apiName = AUTH_API_NAMES.createOrganizationOperator;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrl}/payhub/am/operators/${organizationIpaCode}`;
+  const url = `${innerBaseUrl}/payhub/am/operators/${organizationIpaCode}`;
 
   const res = http.post(
       url,
