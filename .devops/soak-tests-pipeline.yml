@@ -30,6 +30,7 @@ parameters:
       - auth/postToken_tokenExchange
       - auth/logout
       - auth/registerRevokeClient
+      - auth/deleteOrganizationOperator
       - mypay/configAndLogin
 
   - name: "SCENARIO"
@@ -88,6 +89,8 @@ variables:
     value: auth/authn/logout.js
   - name: k6Test_auth/registerRevokeClient
     value: auth/authz/registerRevokeClient.js
+  - name: k6Test_auth/deleteOrganizationOperator
+    value: auth/authz/deleteOrganizationOperator.js
   - name: k6Test_mypay/configAndLogin
     value: mypay/configAndLogin.js
 

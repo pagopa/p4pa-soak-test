@@ -6,7 +6,8 @@ import { getBaseUrl, getInnerBaseUrl } from "../../../common/environment.js";
 export const AUTH_API_NAMES = {
   registerClient: "auth/registerClient",
   revokeClient: "auth/revokeClient",
-  createOrganizationOperator: "auth/createOrganizationOperator"
+  createOrganizationOperator: "auth/createOrganizationOperator",
+  deleteOrganizationOperator: "auth/deleteOrganizationOperator"
 };
 
 const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
@@ -47,6 +48,21 @@ export function createOrganizationOperator(token, organizationIpaCode, clientOpe
   const res = http.post(
       url,
       JSON.stringify(clientOperatorRequest),
+      myParams);
+  logResult(apiName, res);
+
+  return res;
+}
+
+export function deleteOrganizationOperator(token, organizationIpaCode, mappedExternalUserId) {
+  const apiName = AUTH_API_NAMES.deleteOrganizationOperator;
+  const myParams = buildDefaultParams(apiName, token);
+
+  const url = `${innerBaseUrl}/payhub/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
+
+  const res = http.delete(
+      url,
+      null,
       myParams);
   logResult(apiName, res);
 
