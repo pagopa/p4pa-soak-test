@@ -28,7 +28,7 @@ export function postToken(
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-    `${useInnerBaseUrl ? innerBaseUrl : baseUrl}/auth/token`
+    `${useInnerBaseUrl ? innerBaseUrl + '/payhub' : baseUrl}/auth/token`
   );
 
   url.searchParams.append("grant_type", grant_type);
@@ -99,7 +99,7 @@ export function logout(clientId, token) {
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-      `${innerBaseUrl}/auth/revoke`
+      `${baseUrl}/auth/revoke`
   );
   url.searchParams.append("client_id", clientId);
   url.searchParams.append("token", token);
