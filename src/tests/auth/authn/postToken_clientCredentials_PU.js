@@ -21,7 +21,6 @@ export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 // Test
 export default () => {
   const result = postToken_clientCredentials(
-    true,
     `${CONFIG.CONTEXT.AUTH.PU.CLIENT_ID}_${CONFIG.CONTEXT.ORG_IPA_CODE}`,
     CONFIG.CONTEXT.AUTH.PU.CLIENT_SECRET
   );

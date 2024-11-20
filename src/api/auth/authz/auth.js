@@ -16,14 +16,14 @@ export const AUTH_API_NAMES = {
   getUserInfoFromMappedExternaUserId: "auth/getUserInfoFromMappedExternaUserId"
 };
 
-const baseUrl = `${getBaseUrlAuth()}`;
+const baseUrlAuth = `${getBaseUrlAuth()}`;
 
 export function registerClient(token, ipaCode, clientName) {
   const apiName = AUTH_API_NAMES.registerClient;
   const myParams = buildDefaultParams(apiName, token);
 
   const res = http.post(
-    `${baseUrl}/auth/clients/${ipaCode}`,
+    `${baseUrlAuth}/auth/clients/${ipaCode}`,
     JSON.stringify({ clientName }),
     myParams
   );
@@ -36,7 +36,7 @@ export function revokeClient(token, ipaCode, clientId) {
   const myParams = buildDefaultParams(apiName, token);
 
   const res = http.del(
-    `${baseUrl}/auth/clients/${ipaCode}/${clientId}`,
+    `${baseUrlAuth}/auth/clients/${ipaCode}/${clientId}`,
     undefined,
     myParams
   );
@@ -48,7 +48,7 @@ export function deleteOrganizationOperator(token, organizationIpaCode, mappedExt
   const apiName = AUTH_API_NAMES.deleteOrganizationOperator;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrl}/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
+  const url = `${baseUrlAuth}/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
 
   const res = http.del(
       url,
@@ -63,7 +63,7 @@ export function getClientSecret(token, organizationIpaCode, clientId) {
   const apiName = AUTH_API_NAMES.getClientSecret;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrl}/auth/clients/${organizationIpaCode}/${clientId}`;
+  const url = `${baseUrlAuth}/auth/clients/${organizationIpaCode}/${clientId}`;
 
   const res = http.get(
       url,
@@ -78,7 +78,7 @@ export function getClients(token, organizationIpaCode) {
   const apiName = AUTH_API_NAMES.getClientSecret;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrl}/auth/clients/${organizationIpaCode}`;
+  const url = `${baseUrlAuth}/auth/clients/${organizationIpaCode}`;
 
   const res = http.get(
       url,
@@ -93,7 +93,7 @@ export function getOrganizationOperator(token, organizationIpaCode, mappedExtern
   const apiName = AUTH_API_NAMES.getOrganizationOperator;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrl}/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
+  const url = `${baseUrlAuth}/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
 
   const res = http.get(
       url,
@@ -108,7 +108,7 @@ export function getOrganizationOperators(token, organizationIpaCode) {
   const apiName = AUTH_API_NAMES.getOrganizationOperators;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrl}/am/operators/${organizationIpaCode}`;
+  const url = `${baseUrlAuth}/am/operators/${organizationIpaCode}`;
   url.searchParams.append("fiscalCode", randomFiscalCode());
 
   const res = http.get(
@@ -124,7 +124,7 @@ export function getUserInfoFromMappedExternaUserId(token, mappedExternalUserId) 
   const apiName = AUTH_API_NAMES.getUserInfoFromMappedExternaUserId;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrl}/auth/userinfo/${mappedExternalUserId}`;
+  const url = `${baseUrlAuth}/auth/userinfo/${mappedExternalUserId}`;
 
   const res = http.get(
       url,

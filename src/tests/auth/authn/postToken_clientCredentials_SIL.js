@@ -48,7 +48,6 @@ export function teardown(data) {
 // Test
 export default (data) => {
   const result = postToken_clientCredentials(
-    false,
     data.client.clientId,
     data.client.clientSecret
   );

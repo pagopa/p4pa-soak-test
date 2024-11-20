@@ -2,7 +2,7 @@ import http from "k6/http";
 import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams, CONFIG } from "../../../common/envVars.js";
-import {getBaseUrlAuth, getInnerBaseUrl} from "../../../common/environment.js";
+import {getBaseUrlAuth} from "../../../common/environment.js";
 
 export const AUTH_API_NAMES = {
   postToken: "auth/postToken",
@@ -10,11 +10,9 @@ export const AUTH_API_NAMES = {
   logout: "auth/logout"
 };
 
-const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
-const baseUrl = `${getBaseUrlAuth()}`;
+const baseUrlAuth = `${getBaseUrlAuth()}`;
 
 export function postToken(
-  useInnerBaseUrl,
   grant_type,
   client_id,
   client_secret,
@@ -26,7 +24,7 @@ export function postToken(
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-    `${useInnerBaseUrl ? innerBaseUrl + '/payhub' : baseUrl}/auth/token`
+    `${baseUrlAuth}/auth/token`
   );
 
   url.searchParams.append("grant_type", grant_type);
@@ -49,7 +47,6 @@ export function postToken_tokenExchange(
   subject_token_type = "urn:ietf:params:oauth:token-type:jwt"
 ) {
   return postToken(
-    false,
     "urn:ietf:params:oauth:grant-type:token-exchange",
     client_id,
     undefined,
@@ -71,12 +68,10 @@ export function postToken_tokenExchangeFake(
 }
 
 export function postToken_clientCredentials(
-  useInnerBaseUrl,
   client_id,
   client_secret
 ) {
   return postToken(
-    useInnerBaseUrl,
     "client_credentials",
     client_id,
     client_secret
@@ -87,7 +82,7 @@ export function getUserInfo(token) {
   const apiName = AUTH_API_NAMES.getUserInfo;
   const myParams = buildDefaultParams(apiName, token);
 
-  const res = http.get(`${baseUrl}/auth/userinfo`, myParams);
+  const res = http.get(`${baseUrlAuth}/auth/userinfo`, myParams);
   logResult(apiName, res);
   return res;
 }
@@ -97,7 +92,7 @@ export function logout(clientId, token) {
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-      `${baseUrl}/auth/revoke`
+      `${baseUrlAuth}/auth/revoke`
   );
   url.searchParams.append("client_id", clientId);
   url.searchParams.append("token", token);
