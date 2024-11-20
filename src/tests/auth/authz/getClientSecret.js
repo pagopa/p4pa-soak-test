@@ -34,6 +34,8 @@ export default (data) => {
     const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
     const clientId = CONFIG.CONTEXT.AUTH.PU.CLIENT_ID;
 
+    console.log(`TOKKE: ` + JSON.stringify(data));
+    console.log(`TOKKER: ` + data.token);
     const result = getClientSecret(data.token, ipaCode, clientId);
 
     assert(result, [statusOk()]);

@@ -34,7 +34,6 @@ export default (data) => {
     const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
     const mappedExternalUserId = CONFIG.CONTEXT.EXTERNAL_USER_ID;
 
-    console.log(`TOKKE: ${data}`);
     const result = deleteOrganizationOperator(data.token, ipaCode, mappedExternalUserId);
 
     assert(result, [statusOk()]);
