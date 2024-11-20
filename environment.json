@@ -1,10 +1,10 @@
 {
   "DEV": {
-    "baseUrl": "https://api.dev.p4pa.pagopa.it",
+    "baseUrl": "https://api.dev.p4pa.pagopa.it/payhub-auth",
     "innerBaseUrl": "https://hub.internal.dev.p4pa.pagopa.it"
   },
   "UAT": {
-    "baseUrl": "https://api.uat.p4pa.pagopa.it",
+    "baseUrl": "https://api.uat.p4pa.pagopa.it/payhub-auth",
     "innerBaseUrl": "https://hub.internal.uat.p4pa.pagopa.it"
   }
 }

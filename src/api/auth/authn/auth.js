@@ -28,7 +28,7 @@ export function postToken(
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-    `${useInnerBaseUrl ? innerBaseUrl : baseUrl}/payhub/auth/token`
+    `${useInnerBaseUrl ? innerBaseUrl : baseUrl}/auth/token`
   );
 
   url.searchParams.append("grant_type", grant_type);
@@ -89,7 +89,7 @@ export function getUserInfo(token) {
   const apiName = AUTH_API_NAMES.getUserInfo;
   const myParams = buildDefaultParams(apiName, token);
 
-  const res = http.get(`${baseUrl}/payhub/auth/userinfo`, myParams);
+  const res = http.get(`${baseUrl}/auth/userinfo`, myParams);
   logResult(apiName, res);
   return res;
 }
@@ -99,7 +99,7 @@ export function logout(clientId, token) {
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-      `${innerBaseUrl}/payhub/auth/revoke`
+      `${innerBaseUrl}/auth/revoke`
   );
   url.searchParams.append("client_id", clientId);
   url.searchParams.append("token", token);

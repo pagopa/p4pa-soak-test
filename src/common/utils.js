@@ -26,6 +26,7 @@ export function abort(description) {
 /** It will retrieve the auth token through the fake authentication */
 export function getAuthToken() {
   const result = postToken_tokenExchangeFake();
+  console.log(result);
   if (result.status !== 200) {
     logResult("postToken", result, 200);
     abort("Cannot retrieve fake auth token");

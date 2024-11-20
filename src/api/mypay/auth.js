@@ -8,7 +8,7 @@ export const MYPAY_AUTH_API_NAMES = {
   configAndLogin: "mypay/auth/configAndLogin",
 };
 
-const baseUrl = `${getBaseUrl()}/payhub`;
+const baseUrl = `${getBaseUrl()}`;
 
 export function configAndLogin() {
   const apiName = MYPAY_AUTH_API_NAMES.configAndLogin;
