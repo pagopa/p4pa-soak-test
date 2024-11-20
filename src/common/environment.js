@@ -8,6 +8,11 @@ export function getBaseUrl() {
   ];
 }
 
+export function getBaseUrlAuth() {
+  return ENV[CONFIG.TARGET_ENV]["baseUrlAuth"];
+}
+
+
 export function getInnerBaseUrl() {
   return ENV[CONFIG.TARGET_ENV]["innerBaseUrl"];
 }

@@ -1,14 +1,13 @@
 import http from "k6/http";
-import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
 import { logResult } from "../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams, CONFIG } from "../../common/envVars.js";
-import { getBaseUrl, getInnerBaseUrl } from "../../common/environment.js";
+import { getBaseUrl } from "../../common/environment.js";
 
 export const MYPAY_AUTH_API_NAMES = {
   configAndLogin: "mypay/auth/configAndLogin",
 };
 
-const baseUrl = `${getBaseUrl()}`;
+const baseUrl = `${getBaseUrl()}/payhub`;
 
 export function configAndLogin() {
   const apiName = MYPAY_AUTH_API_NAMES.configAndLogin;
