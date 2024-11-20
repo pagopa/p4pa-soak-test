@@ -107,7 +107,7 @@ variables:
   - name: k6Test_auth/getUserInfoFromMappedExternaUserId
     value: auth/authz/getUserInfoFromMappedExternaUserId.js
   - name: k6Test_mypay/configAndLogin
-    value: mypay/configAndLogin.js
+    value: mypay/auth/configAndLogin.js
 
   # Resolved list of k6 script to execute
   - name: SCRIPTS_TO_EXECUTE
