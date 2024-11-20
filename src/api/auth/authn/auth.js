@@ -2,7 +2,7 @@ import http from "k6/http";
 import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams, CONFIG } from "../../../common/envVars.js";
-import { getBaseUrl, getInnerBaseUrl } from "../../../common/environment.js";
+import {getBaseUrlAuth, getInnerBaseUrl} from "../../../common/environment.js";
 
 export const AUTH_API_NAMES = {
   postToken: "auth/postToken",
@@ -13,7 +13,7 @@ export const AUTH_API_NAMES = {
 const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
 const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
   ? innerBaseUrl
-  : `${getBaseUrl()}`;
+  : `${getBaseUrlAuth()}`;
 
 export function postToken(
   useInnerBaseUrl,
@@ -51,7 +51,7 @@ export function postToken_tokenExchange(
   subject_token_type = "urn:ietf:params:oauth:token-type:jwt"
 ) {
   return postToken(
-    true,
+    false,
     "urn:ietf:params:oauth:grant-type:token-exchange",
     client_id,
     undefined,
