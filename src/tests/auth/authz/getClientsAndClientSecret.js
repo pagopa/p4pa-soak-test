@@ -19,7 +19,7 @@ const testName = "getClientsAndClientSecret";
 export const options = defaultApiOptionsBuilder(
     application,
     testName,
-    [AUTH_API_NAMES.getClients] // applying apiName tags to thresholds
+    [AUTH_API_NAMES.getClients, AUTH_API_NAMES.getClientSecret] // applying apiName tags to thresholds
 );
 
 // K6 summary configuration

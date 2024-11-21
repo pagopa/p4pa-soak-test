@@ -7,8 +7,8 @@ export const AUTH_API_NAMES = {
   registerClient: "auth/registerClient",
   revokeClient: "auth/revokeClient",
   deleteOrganizationOperator: "auth/deleteOrganizationOperator",
-  getClientSecret: "auth/getClientSecret",
   getClients: "auth/getClients",
+  getClientSecret: "auth/getClientSecret",
   getOrganizationOperator: "auth/getOrganizationOperator",
   getOrganizationOperators: "auth/getOrganizationOperators",
   getUserInfoFromMappedExternaUserId: "auth/getUserInfoFromMappedExternaUserId"

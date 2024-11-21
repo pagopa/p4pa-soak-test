@@ -2,7 +2,8 @@ import {assert, statusOk} from "../../../common/assertions.js";
 import {
     AUTH_API_NAMES,
     getOrganizationOperator,
-    getOrganizationOperators
+    getOrganizationOperators,
+    getUserInfoFromMappedExternaUserId
 } from "../../../api/auth/authz/auth.js";
 import defaultHandleSummaryBuilder from "../../../common/handleSummaryBuilder.js";
 import {defaultApiOptionsBuilder} from "../../../common/dynamicScenarios/defaultOptions.js";
@@ -19,7 +20,7 @@ const testName = "getAllOperatorsAndSingle";
 export const options = defaultApiOptionsBuilder(
     application,
     testName,
-    [AUTH_API_NAMES.getOrganizationOperators] // applying apiName tags to thresholds
+    [AUTH_API_NAMES.getOrganizationOperators, AUTH_API_NAMES.getOrganizationOperator, AUTH_API_NAMES.getUserInfoFromMappedExternaUserId] // applying apiName tags to thresholds
 );
 
 // K6 summary configuration
@@ -37,6 +38,7 @@ export default (data) => {
 
     if (allOperators) {
         getSingleOrganizationOperator(data.token, ipaCode, allOperators.mappedExternalUserId);
+        getOperatorByExternalId(data.token, allOperators.mappedExternalUserId);
     }
 };
 
@@ -80,5 +82,15 @@ export function getSingleOrganizationOperator(token, ipaCode, mappedExternalUser
 
     if (result.status !== 200) {
         logErrorResult(testName, `Unexpected getOrganizationOperator status`, result, true);
+    }
+}
+
+export function getOperatorByExternalId(token, mappedExternalUserId) {
+    const result = getUserInfoFromMappedExternaUserId(token, mappedExternalUserId);
+
+    assert(result, [statusOk()]);
+
+    if (result.status !== 200) {
+        logErrorResult(testName, `Unexpected getUserInfoFromMappedExternaUserId status`, result, true);
     }
 }

@@ -33,7 +33,6 @@ parameters:
       - auth/deleteOrganizationOperator
       - auth/getClientsAndClientSecret
       - auth/getAllOperatorsAndSingle
-      - auth/getUserInfoFromMappedExternaUserId
       - mypay/configAndLogin
 
   - name: "SCENARIO"
@@ -98,8 +97,6 @@ variables:
     value: auth/authz/getClientsAndClientSecret.js
   - name: k6Test_auth/getAllOperatorsAndSingle
     value: auth/authz/getAllOperatorsAndSingle.js
-  - name: k6Test_auth/getUserInfoFromMappedExternaUserId
-    value: auth/authz/getUserInfoFromMappedExternaUserId.js
   - name: k6Test_mypay/configAndLogin
     value: mypay/auth/configAndLogin.js
 
