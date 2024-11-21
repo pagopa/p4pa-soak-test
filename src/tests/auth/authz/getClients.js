@@ -33,6 +33,17 @@ export function setup() {
 export default (data) => {
     const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
 
+    if (data.token == null) {
+        console.log("TOKEN NULLO!");
+    } else {
+        const middleIndex = Math.floor(data.token.length / 2);
+        const firstHalf = data.token.substring(0, middleIndex);
+        const secondHalf = data.token.substring(middleIndex);
+
+        console.log(`Prima metà del token: ${firstHalf}`);
+        console.log(`Seconda metà del token: ${secondHalf}`);
+    }
+
     const result = getClients(data.token, ipaCode);
 
     assert(result, [statusOk()]);

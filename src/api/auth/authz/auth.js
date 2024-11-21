@@ -7,7 +7,6 @@ import {randomFiscalCode} from "../../../common/utils.js";
 export const AUTH_API_NAMES = {
   registerClient: "auth/registerClient",
   revokeClient: "auth/revokeClient",
-  createOrganizationOperator: "auth/createOrganizationOperator",
   deleteOrganizationOperator: "auth/deleteOrganizationOperator",
   getClientSecret: "auth/getClientSecret",
   getClients: "auth/getClients",
