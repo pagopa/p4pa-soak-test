@@ -81,7 +81,6 @@ export function getClients(token, organizationIpaCode) {
 
   const res = http.get(
       url,
-      null,
       myParams);
   logResult(apiName, res);
 
@@ -96,7 +95,6 @@ export function getOrganizationOperator(token, organizationIpaCode, mappedExtern
 
   const res = http.get(
       url,
-      null,
       myParams);
   logResult(apiName, res);
 
@@ -112,7 +110,6 @@ export function getOrganizationOperators(token, organizationIpaCode) {
 
   const res = http.get(
       url,
-      null,
       myParams);
   logResult(apiName, res);
 
@@ -127,7 +124,6 @@ export function getUserInfoFromMappedExternaUserId(token, mappedExternalUserId) 
 
   const res = http.get(
       url,
-      null,
       myParams);
   logResult(apiName, res);
 

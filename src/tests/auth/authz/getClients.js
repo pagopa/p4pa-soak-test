@@ -33,21 +33,6 @@ export function setup() {
 export default (data) => {
     const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
 
-    if (data.token == null) {
-        console.log("TOKEN NULLO!");
-    } else {
-        const noDotToken = data.token.replaceAll('.', '{}');
-
-        const middleIndex = Math.floor(noDotToken.length / 2);
-        const firstHalf = noDotToken.substring(0, middleIndex);
-        const secondHalf = noDotToken.substring(middleIndex);
-
-        const reversedFirstHalf = firstHalf.split('').reverse().join('');
-
-        console.log(`Prima metà (invertita): ${reversedFirstHalf}`);
-        console.log(`Seconda metà: ${secondHalf}`);
-    }
-
     const result = getClients(data.token, ipaCode);
 
     assert(result, [statusOk()]);
