@@ -56,7 +56,7 @@ export function registerClientAndCheck(token, ipaCode, clientName) {
   return {
     organizationIpaCode: body.organizationIpaCode,
     clientId: body.clientId,
-    clientSecret: body.clientSecret,
+    clientSecret: body.clientSecret
   };
 }
 

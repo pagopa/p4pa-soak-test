@@ -31,8 +31,7 @@ parameters:
       - auth/logout
       - auth/registerRevokeClient
       - auth/deleteOrganizationOperator
-      - auth/getClientSecret
-      - auth/getClients
+      - auth/getClientsAndClientSecret
       - auth/getOrganizationOperator
       - auth/getOrganizationOperators
       - auth/getUserInfoFromMappedExternaUserId
@@ -96,10 +95,8 @@ variables:
     value: auth/authz/registerRevokeClient.js
   - name: k6Test_auth/deleteOrganizationOperator
     value: auth/authz/deleteOrganizationOperator.js
-  - name: k6Test_auth/getClientSecret
-    value: auth/authz/getClientSecret.js
-  - name: k6Test_auth/getClients
-    value: auth/authz/getClients.js
+  - name: k6Test_auth/getClientsAndClientSecret
+    value: auth/authz/getClientsAndClientSecret.js
   - name: k6Test_auth/getOrganizationOperator
     value: auth/authz/getOrganizationOperator.js
   - name: k6Test_auth/getOrganizationOperators
