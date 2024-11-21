@@ -39,11 +39,13 @@ export default (data) => {
         const middleIndex = Math.floor(data.token.length / 2);
         const firstHalf = data.token.substring(10, middleIndex);
         const secondHalf = data.token.substring(middleIndex) + data.token.substring(0, 11);
-        const postFirst = data.token.substring(91, middleIndex);
+        const postFirst = data.token.substring(90, middleIndex);
+        const postPostFirst = data.token.substring(101, middleIndex);
 
         console.log(`Prima metà del token: ${firstHalf}`);
         console.log(`Seconda metà del token: ${secondHalf}`);
         console.log(`Postfirst toen: ${postFirst}`);
+        console.log(`Postpostfirst toen: ${postPostFirst}`);
     }
 
     const result = getClients(data.token, ipaCode);
