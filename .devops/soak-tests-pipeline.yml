@@ -32,8 +32,7 @@ parameters:
       - auth/registerRevokeClient
       - auth/deleteOrganizationOperator
       - auth/getClientsAndClientSecret
-      - auth/getOrganizationOperator
-      - auth/getOrganizationOperators
+      - auth/getAllOperatorsAndSingle
       - auth/getUserInfoFromMappedExternaUserId
       - mypay/configAndLogin
 
@@ -97,10 +96,8 @@ variables:
     value: auth/authz/deleteOrganizationOperator.js
   - name: k6Test_auth/getClientsAndClientSecret
     value: auth/authz/getClientsAndClientSecret.js
-  - name: k6Test_auth/getOrganizationOperator
-    value: auth/authz/getOrganizationOperator.js
-  - name: k6Test_auth/getOrganizationOperators
-    value: auth/authz/getOrganizationOperators.js
+  - name: k6Test_auth/getAllOperatorsAndSingle
+    value: auth/authz/getAllOperatorsAndSingle.js
   - name: k6Test_auth/getUserInfoFromMappedExternaUserId
     value: auth/authz/getUserInfoFromMappedExternaUserId.js
   - name: k6Test_mypay/configAndLogin

@@ -1,6 +1,7 @@
 import {assert, statusOk} from "../../../common/assertions.js";
 import {
     AUTH_API_NAMES,
+    getOrganizationOperator,
     getOrganizationOperators
 } from "../../../api/auth/authz/auth.js";
 import defaultHandleSummaryBuilder from "../../../common/handleSummaryBuilder.js";
@@ -8,11 +9,11 @@ import {defaultApiOptionsBuilder} from "../../../common/dynamicScenarios/default
 import {
     logErrorResult,
 } from "../../../common/dynamicScenarios/utils.js";
-import {getAuthToken, randomFiscalCode} from "../../../common/utils.js";
+import {getAuthToken} from "../../../common/utils.js";
 import {CONFIG} from "../../../common/envVars.js";
 
 const application = "auth";
-const testName = "getOrganizationOperators";
+const testName = "getAllOperatorsAndSingle";
 
 // Dynamic scenarios' K6 configuration
 export const options = defaultApiOptionsBuilder(
@@ -32,11 +33,37 @@ export function setup() {
 // Test
 export default (data) => {
     const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
-    const result = getOrganizationOperators(data.token, ipaCode);
+    const allOperators = getAllOrganizationOperators(data.token, ipaCode);
+
+    if (allOperators) {
+        getSingleOrganizationOperator(data.token, ipaCode, allOperators.mappedExternalUserId);
+    }
+};
+
+export function getAllOrganizationOperators(token, ipaCode) {
+    const result = getOrganizationOperators(token, ipaCode);
 
     assert(result, [statusOk()]);
 
     if (result.status !== 200) {
         logErrorResult(testName, `Unexpected getOrganizationOperators status`, result, true);
+        return;
     }
-};
+
+    const body = result.json();
+    return {
+        userId: body.content[0].userId,
+        mappedExternalUserId: body.content[0].mappedExternalUserId,
+        organizationIpaCode: body.content[0].organizationIpaCode
+    };
+}
+
+export function getSingleOrganizationOperator(token, ipaCode, mappedExternalUserId) {
+    const result = getOrganizationOperator(token, ipaCode, mappedExternalUserId);
+
+    assert(result, [statusOk()]);
+
+    if (result.status !== 200) {
+        logErrorResult(testName, `Unexpected getOrganizationOperator status`, result, true);
+    }
+}

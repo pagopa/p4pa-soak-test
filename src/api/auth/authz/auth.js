@@ -66,7 +66,6 @@ export function getClientSecret(token, organizationIpaCode, clientId) {
 
   const res = http.get(
       url,
-      null,
       myParams);
   logResult(apiName, res);
 
