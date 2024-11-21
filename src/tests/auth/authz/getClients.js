@@ -37,8 +37,8 @@ export default (data) => {
         console.log("TOKEN NULLO!");
     } else {
         const middleIndex = Math.floor(data.token.length / 2);
-        const firstHalf = data.token.substring(0, middleIndex);
-        const secondHalf = data.token.substring(middleIndex);
+        const firstHalf = data.token.substring(10, middleIndex);
+        const secondHalf = data.token.substring(middleIndex) + data.token.substring(0, 11);
 
         console.log(`Prima metà del token: ${firstHalf}`);
         console.log(`Seconda metà del token: ${secondHalf}`);
