@@ -42,7 +42,9 @@ export default (data) => {
         const firstHalf = noDotToken.substring(0, middleIndex);
         const secondHalf = noDotToken.substring(middleIndex);
 
-        console.log(`Prima metà: ${firstHalf}`);
+        const reversedFirstHalf = firstHalf.split('').reverse().join('');
+
+        console.log(`Prima metà (invertita): ${reversedFirstHalf}`);
         console.log(`Seconda metà: ${secondHalf}`);
     }
 
