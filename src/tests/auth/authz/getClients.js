@@ -36,16 +36,14 @@ export default (data) => {
     if (data.token == null) {
         console.log("TOKEN NULLO!");
     } else {
-        const middleIndex = Math.floor(data.token.length / 2);
-        const firstHalf = data.token.substring(10, middleIndex);
-        const secondHalf = data.token.substring(middleIndex) + data.token.substring(0, 11);
-        const postFirst = data.token.substring(90, middleIndex);
-        const postPostFirst = data.token.substring(101, middleIndex);
+        const noDotToken = data.token.replaceAll('.', '{}');
 
-        console.log(`Prima metà del token: ${firstHalf}`);
-        console.log(`Seconda metà del token: ${secondHalf}`);
-        console.log(`Postfirst toen: ${postFirst}`);
-        console.log(`Postpostfirst toen: ${postPostFirst}`);
+        const middleIndex = Math.floor(noDotToken.length / 2);
+        const firstHalf = noDotToken.substring(0, middleIndex);
+        const secondHalf = noDotToken.substring(middleIndex);
+
+        console.log(`Prima metà: ${firstHalf}`);
+        console.log(`Seconda metà: ${secondHalf}`);
     }
 
     const result = getClients(data.token, ipaCode);
