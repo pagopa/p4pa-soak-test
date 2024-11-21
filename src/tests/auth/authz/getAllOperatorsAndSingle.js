@@ -51,10 +51,25 @@ export function getAllOrganizationOperators(token, ipaCode) {
     }
 
     const body = result.json();
+    if (!body.content || !Array.isArray(body.content) || body.content.length === 0) {
+        logErrorResult(testName, `Invalid or empty content in response`, result, true);
+        return;
+    }
+
+    const firstOperator = body.content[0];
+
+    if (!firstOperator.userId ||
+        !firstOperator.mappedExternalUserId ||
+        !firstOperator.organizationIpaCode
+    ) {
+        logErrorResult(testName, `Missing required fields in the first operator`, result, true);
+        return;
+    }
+
     return {
-        userId: body.content[0].userId,
-        mappedExternalUserId: body.content[0].mappedExternalUserId,
-        organizationIpaCode: body.content[0].organizationIpaCode
+        userId: firstOperator.userId,
+        mappedExternalUserId: firstOperator.mappedExternalUserId,
+        organizationIpaCode: firstOperator.organizationIpaCode
     };
 }
 

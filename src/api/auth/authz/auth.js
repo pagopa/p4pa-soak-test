@@ -2,7 +2,6 @@ import http from "k6/http";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams } from "../../../common/envVars.js";
 import {getBaseUrlAuth} from "../../../common/environment.js";
-import {randomFiscalCode} from "../../../common/utils.js";
 
 export const AUTH_API_NAMES = {
   registerClient: "auth/registerClient",
@@ -105,7 +104,6 @@ export function getOrganizationOperators(token, organizationIpaCode) {
   const myParams = buildDefaultParams(apiName, token);
 
   const url = `${baseUrlAuth}/am/operators/${organizationIpaCode}`;
-  url.searchParams.append("fiscalCode", randomFiscalCode());
 
   const res = http.get(
       url,
