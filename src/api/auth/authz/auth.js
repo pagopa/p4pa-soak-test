@@ -1,7 +1,7 @@
 import http from "k6/http";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
-import { buildDefaultParams } from "../../../common/envVars.js";
-import {getBaseUrlAuth} from "../../../common/environment.js";
+import {buildDefaultParams, CONFIG} from "../../../common/envVars.js";
+import {getBaseUrl, getBaseUrlAuth, getInnerBaseUrl} from "../../../common/environment.js";
 
 export const AUTH_API_NAMES = {
   registerClient: "auth/registerClient",
@@ -14,6 +14,10 @@ export const AUTH_API_NAMES = {
   getUserInfoFromMappedExternaUserId: "auth/getUserInfoFromMappedExternaUserId"
 };
 
+const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
+const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
+    ? innerBaseUrl
+    : `${getBaseUrl()}/auth`;
 const baseUrlAuth = `${getBaseUrlAuth()}`;
 
 export function registerClient(token, ipaCode, clientName) {
@@ -21,7 +25,7 @@ export function registerClient(token, ipaCode, clientName) {
   const myParams = buildDefaultParams(apiName, token);
 
   const res = http.post(
-    `${baseUrlAuth}/auth/clients/${ipaCode}`,
+    `${baseUrl}/auth/clients/${ipaCode}`,
     JSON.stringify({ clientName }),
     myParams
   );
@@ -34,7 +38,7 @@ export function revokeClient(token, ipaCode, clientId) {
   const myParams = buildDefaultParams(apiName, token);
 
   const res = http.del(
-    `${baseUrlAuth}/auth/clients/${ipaCode}/${clientId}`,
+    `${baseUrl}/auth/clients/${ipaCode}/${clientId}`,
     undefined,
     myParams
   );
