@@ -61,11 +61,11 @@ export function deleteOrganizationOperator(token, organizationIpaCode, mappedExt
   return res;
 }
 
-export function getClientSecret(token, organizationIpaCode, clientId) {
-  const apiName = AUTH_API_NAMES.getClientSecret;
+export function getClients(token, organizationIpaCode) {
+  const apiName = AUTH_API_NAMES.getClients;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrlAuth}/auth/clients/${organizationIpaCode}/${clientId}`;
+  const url = `${baseUrlAuth}/auth/clients/${organizationIpaCode}`;
 
   const res = http.get(
       url,
@@ -75,11 +75,11 @@ export function getClientSecret(token, organizationIpaCode, clientId) {
   return res;
 }
 
-export function getClients(token, organizationIpaCode) {
+export function getClientSecret(token, organizationIpaCode, clientId) {
   const apiName = AUTH_API_NAMES.getClientSecret;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrlAuth}/auth/clients/${organizationIpaCode}`;
+  const url = `${baseUrlAuth}/auth/clients/${organizationIpaCode}/${clientId}`;
 
   const res = http.get(
       url,
