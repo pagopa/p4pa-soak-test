@@ -1,7 +1,8 @@
 import http from "k6/http";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import {buildDefaultParams, CONFIG} from "../../../common/envVars.js";
-import {getBaseUrlAuth, getInnerBaseUrl} from "../../../common/environment.js";
+import {getBaseUrl, getInnerBaseUrl} from "../../../common/environment.js";
+import authConfig from "../url";
 
 export const AUTH_API_NAMES = {
   registerClient: "auth/registerClient",
@@ -15,10 +16,10 @@ export const AUTH_API_NAMES = {
 };
 
 const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
+const pathAuth = authConfig.pathAuth;
 const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
     ? innerBaseUrl
-    : `${getBaseUrlAuth()}`;
-const baseUrlAuth = `${getBaseUrlAuth()}`;
+    : `${getBaseUrl()}` + pathAuth;
 
 export function registerClient(token, ipaCode, clientName) {
   const apiName = AUTH_API_NAMES.registerClient;
@@ -50,7 +51,7 @@ export function deleteOrganizationOperator(token, organizationIpaCode, mappedExt
   const apiName = AUTH_API_NAMES.deleteOrganizationOperator;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrlAuth}/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
+  const url = `${baseUrl}/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
 
   const res = http.del(
       url,
@@ -65,7 +66,7 @@ export function getClients(token, organizationIpaCode) {
   const apiName = AUTH_API_NAMES.getClients;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrlAuth}/auth/clients/${organizationIpaCode}`;
+  const url = `${baseUrl}/auth/clients/${organizationIpaCode}`;
 
   const res = http.get(
       url,
@@ -79,7 +80,7 @@ export function getClientSecret(token, organizationIpaCode, clientId) {
   const apiName = AUTH_API_NAMES.getClientSecret;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrlAuth}/auth/clients/${organizationIpaCode}/${clientId}`;
+  const url = `${baseUrl}/auth/clients/${organizationIpaCode}/${clientId}`;
 
   const res = http.get(
       url,
@@ -93,7 +94,7 @@ export function getOrganizationOperator(token, organizationIpaCode, mappedExtern
   const apiName = AUTH_API_NAMES.getOrganizationOperator;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrlAuth}/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
+  const url = `${baseUrl}/am/operators/${organizationIpaCode}/${mappedExternalUserId}`;
 
   const res = http.get(
       url,
@@ -107,7 +108,7 @@ export function getOrganizationOperators(token, organizationIpaCode) {
   const apiName = AUTH_API_NAMES.getOrganizationOperators;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrlAuth}/am/operators/${organizationIpaCode}`;
+  const url = `${baseUrl}/am/operators/${organizationIpaCode}`;
 
   const res = http.get(
       url,
@@ -121,7 +122,7 @@ export function getUserInfoFromMappedExternaUserId(token, mappedExternalUserId) 
   const apiName = AUTH_API_NAMES.getUserInfoFromMappedExternaUserId;
   const myParams = buildDefaultParams(apiName, token);
 
-  const url = `${baseUrlAuth}/auth/userinfo/${mappedExternalUserId}`;
+  const url = `${baseUrl}/auth/userinfo/${mappedExternalUserId}`;
 
   const res = http.get(
       url,

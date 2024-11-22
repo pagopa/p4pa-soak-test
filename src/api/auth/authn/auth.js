@@ -2,7 +2,8 @@ import http from "k6/http";
 import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams, CONFIG } from "../../../common/envVars.js";
-import {getBaseUrlAuth} from "../../../common/environment.js";
+import {getBaseUrl, getInnerBaseUrl} from "../../../common/environment.js";
+import authConfig from "../url";
 
 export const AUTH_API_NAMES = {
   postToken: "auth/postToken",
@@ -10,7 +11,11 @@ export const AUTH_API_NAMES = {
   logout: "auth/logout"
 };
 
-const baseUrlAuth = `${getBaseUrlAuth()}`;
+const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
+const pathAuth = authConfig.pathAuth;
+const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
+    ? innerBaseUrl
+    : `${getBaseUrl()}` + pathAuth;
 
 export function postToken(
   grant_type,
@@ -24,7 +29,7 @@ export function postToken(
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-    `${baseUrlAuth}/auth/token`
+    `${baseUrl}/auth/token`
   );
 
   url.searchParams.append("grant_type", grant_type);
@@ -82,7 +87,7 @@ export function getUserInfo(token) {
   const apiName = AUTH_API_NAMES.getUserInfo;
   const myParams = buildDefaultParams(apiName, token);
 
-  const res = http.get(`${baseUrlAuth}/auth/userinfo`, myParams);
+  const res = http.get(`${baseUrl}/auth/userinfo`, myParams);
   logResult(apiName, res);
   return res;
 }
@@ -92,7 +97,7 @@ export function logout(clientId, token) {
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-      `${baseUrlAuth}/auth/revoke`
+      `${baseUrl}/auth/revoke`
   );
   url.searchParams.append("client_id", clientId);
   url.searchParams.append("token", token);
