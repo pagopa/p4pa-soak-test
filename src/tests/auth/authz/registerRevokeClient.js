@@ -12,7 +12,6 @@ import {
 } from "../../../common/dynamicScenarios/utils.js";
 import { getAuthToken } from "../../../common/utils.js";
 import { CONFIG } from "../../../common/envVars.js";
-import { v4 as uuidv4 } from 'uuid';
 
 const application = "auth";
 const testName = "registerRevokeClient";
@@ -35,7 +34,7 @@ export function setup() {
 // Test
 export default (data) => {
   const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
-  const clientName = `SOAKTEST_CLIENTNAME_${testEntitiesBasedScenariosBaseIndexRetriever()}_${uuidv4()}`;
+  const clientName = `SOAKTEST_CLIENTNAME_${testEntitiesBasedScenariosBaseIndexRetriever()}_${Date.now()}`;
   const client = registerClientAndCheck(data.token, ipaCode, clientName);
 
   if (client) {
