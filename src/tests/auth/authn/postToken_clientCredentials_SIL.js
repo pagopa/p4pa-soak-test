@@ -11,7 +11,7 @@ import {
 import { getAuthToken } from "../../../common/utils.js";
 
 const application = "auth";
-const testName = "postToken_clientCredentials_PU";
+const testName = "postToken_clientCredentials_SIL";
 
 // Dynamic scenarios' K6 configuration
 export const options = defaultApiOptionsBuilder(
@@ -26,13 +26,20 @@ export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 // BeforeAll
 export function setup() {
   const token = getAuthToken();
-  return {
-    token,
-    client: registerClientAndCheck(
+  const client = registerClientAndCheck(
       token,
       CONFIG.CONTEXT.ORG_IPA_CODE,
-      "postToken_clientCredentials_PU"
-    ),
+      "postToken_clientCredentials_SIL"
+  );
+
+  if (!client) {
+    logErrorResult(testName, `Register client return null value`, client, true);
+    return;
+  }
+
+  return {
+    token,
+    client: client
   };
 }
 
