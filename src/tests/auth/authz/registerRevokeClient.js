@@ -34,7 +34,7 @@ export function setup() {
 // Test
 export default (data) => {
   const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
-  const clientName = `SOAKTEST_CLIENTNAME_${testEntitiesBasedScenariosBaseIndexRetriever()}`;
+  const clientName = `SOAKTEST_CLIENTNAME_${testEntitiesBasedScenariosBaseIndexRetriever()}_${__ITER}`;
   const client = registerClientAndCheck(data.token, ipaCode, clientName);
 
   if (client) {
