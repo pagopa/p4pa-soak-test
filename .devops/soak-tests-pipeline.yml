@@ -90,35 +90,35 @@ variables:
   # Authn tests
   - name: k6Test_runAll_Auth
     value: auth/
-  - name: k6Test_auth/getUserInfo
+  - name: k6Test_Authn_getUserInfo
     value: auth/authn/getUserInfo.js
-  - name: k6Test_auth/postToken_clientCredentials_PU
+  - name: k6Test_Authn_postToken_clientCredentials_PU
     value: auth/authn/postToken_clientCredentials_PU.js
-  - name: k6Test_auth/postToken_clientCredentials_SIL
+  - name: k6Test_Authn_postToken_clientCredentials_SIL
     value: auth/authn/postToken_clientCredentials_SIL.js
-  - name: k6Test_auth/postToken_tokenExchange
+  - name: k6Test_Authn_postToken_tokenExchange
     value: auth/authn/postToken_tokenExchange.js
-  - name: k6Test_auth/logout
+  - name: k6Test_Authn_logout
     value: auth/authn/logout.js
 
   # Authz tests
-  - name: k6Test_auth/registerRevokeClient
+  - name: k6Test_Authz_registerRevokeClient
     value: auth/authz/registerRevokeClient.js
-  - name: k6Test_auth/getClients
+  - name: k6Test_Authz_getClients
     value: auth/authz/getClients.js
-  - name: k6Test_auth/getClientSecret
+  - name: k6Test_Authz_getClientSecret
     value: auth/authz/getClientSecret.js
-  - name: k6Test_auth/getOrganizationOperator
+  - name: k6Test_Authz_getOrganizationOperator
     value: auth/authz/getOrganizationOperator.js
-  - name: k6Test_auth/getOrganizationOperators
+  - name: k6Test_Authz_getOrganizationOperators
     value: auth/authz/getOrganizationOperators.js
-  - name: k6Test_auth/getUserInfoFromMappedExternaUserId
+  - name: k6Test_Authz_getUserInfoFromMappedExternaUserId
     value: auth/authz/getUserInfoFromMappedExternaUserId.js
-  - name: k6Test_auth/deleteOrganizationOperator
+  - name: k6Test_Authz_deleteOrganizationOperator
     value: auth/authz/deleteOrganizationOperator.js
 
   # Mypay tests
-  - name: k6Test_mypay/configAndLogin
+  - name: k6Test_Mypay_configAndLogin
     value: mypay/auth/configAndLogin.js
 
   # Resolved list of k6 script to execute

@@ -5,9 +5,9 @@ const baseUrl = getBaseUrl();
 const innerBaseUrl = getInnerBaseUrl();
 
 const authConfig = {
-  innerBaseUrl: `${innerBaseUrl}/p4paauth`,
+  innerBaseUrl: `${innerBaseUrl}/p4paauth/payhub`,
   baseUrl: CONFIG.USE_INTERNAL_ACCESS_ENV
-      ? `${innerBaseUrl}/p4paauth`
+      ? `${innerBaseUrl}/p4paauth/payhub`
       : `${baseUrl}/payhub-auth`
 };
 
