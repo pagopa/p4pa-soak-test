@@ -39,7 +39,7 @@ export function setup() {
 
   return {
     token,
-    client: client
+    client
   };
 }
 
