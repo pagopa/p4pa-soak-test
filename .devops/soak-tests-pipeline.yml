@@ -25,8 +25,8 @@ parameters:
     default: "auth/getUserInfo"
     values:
       - runAll
+      
       - runAll_Auth
-
       - Authn_getUserInfo
       - Authn_postToken_clientCredentials_PU
       - Authn_postToken_clientCredentials_SIL
