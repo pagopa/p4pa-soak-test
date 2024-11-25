@@ -10,9 +10,7 @@ export const AUTH_API_NAMES = {
   logout: "auth/logout"
 };
 
-const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
-    ? authConfig.fullInnerBaseUrl
-    : authConfig.fullBaseUrl;
+const baseUrl = authConfig.effectiveBaseUrl;
 
 export function postToken(
   grant_type,

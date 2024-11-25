@@ -1,6 +1,6 @@
 import http from "k6/http";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
-import {buildDefaultParams, CONFIG} from "../../../common/envVars.js";
+import {buildDefaultParams} from "../../../common/envVars.js";
 import authConfig from "../url.js";
 
 export const AUTH_API_NAMES = {
@@ -14,9 +14,7 @@ export const AUTH_API_NAMES = {
   getUserInfoFromMappedExternaUserId: "auth/getUserInfoFromMappedExternaUserId"
 };
 
-const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
-    ? authConfig.fullInnerBaseUrl
-    : authConfig.fullBaseUrl;
+const baseUrl = authConfig.effectiveBaseUrl;
 
 export function registerClient(token, ipaCode, clientName) {
   const apiName = AUTH_API_NAMES.registerClient;

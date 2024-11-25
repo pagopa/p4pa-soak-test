@@ -8,7 +8,7 @@ import {defaultApiOptionsBuilder} from "../../../common/dynamicScenarios/default
 import {
     logErrorResult,
 } from "../../../common/dynamicScenarios/utils.js";
-import {setupTestEnvironment} from "./genericSetup.js";
+import {setupOperatorBasedTest} from "./baseSetup.js";
 
 const application = "auth";
 const testName = "getAllOperatorsAndSingle";
@@ -25,7 +25,7 @@ export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 
 // BeforeAll
 export function setup() {
-    return setupTestEnvironment(testName);
+    return setupOperatorBasedTest(testName);
 }
 
 // Test

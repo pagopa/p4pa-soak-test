@@ -24,19 +24,24 @@ parameters:
     type: string
     default: "auth/getUserInfo"
     values:
-      - auth/getUserInfo
-      - auth/postToken_clientCredentials_PU
-      - auth/postToken_clientCredentials_SIL
-      - auth/postToken_tokenExchange
-      - auth/logout
-      - auth/registerRevokeClient
-      - auth/getClients
-      - auth/getClientSecret
-      - auth/getOrganizationOperator
-      - auth/getOrganizationOperators
-      - auth/getUserInfoFromMappedExternaUserId
-      - auth/deleteOrganizationOperator
-      - mypay/configAndLogin
+      - runAll
+      - runAll_Auth
+
+      - Authn_getUserInfo
+      - Authn_postToken_clientCredentials_PU
+      - Authn_postToken_clientCredentials_SIL
+      - Authn_postToken_tokenExchange
+      - Authn_logout
+
+      - Authz_registerRevokeClient
+      - Authz_getClients
+      - Authz_getClientSecret
+      - Authz_getOrganizationOperator
+      - Authz_getOrganizationOperators
+      - Authz_getUserInfoFromMappedExternaUserId
+      - Authz_deleteOrganizationOperator
+
+      - Mypay_configAndLogin
 
   - name: "SCENARIO"
     displayName: "Soak test type"
@@ -79,6 +84,11 @@ parameters:
 
 variables:
   # Comma separated list of tests to execute based on the SCRIPT parameter (if some test require the execution of more than one test, eg data preparation)
+  - name: k6Test_runAll
+    value: ./
+  - name: k6Test_runAll_Auth
+    value: auth/
+
   - name: k6Test_getTransactions
     value: transactions/getTransactions
 
@@ -92,6 +102,7 @@ variables:
     value: auth/authn/postToken_tokenExchange.js
   - name: k6Test_auth/logout
     value: auth/authn/logout.js
+
   - name: k6Test_auth/registerRevokeClient
     value: auth/authz/registerRevokeClient.js
   - name: k6Test_auth/getClients
@@ -106,6 +117,7 @@ variables:
     value: auth/authz/getUserInfoFromMappedExternaUserId.js
   - name: k6Test_auth/deleteOrganizationOperator
     value: auth/authz/deleteOrganizationOperator.js
+
   - name: k6Test_mypay/configAndLogin
     value: mypay/auth/configAndLogin.js
 
