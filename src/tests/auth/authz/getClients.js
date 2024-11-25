@@ -1,7 +1,7 @@
 import {assert, statusOk} from "../../../common/assertions.js";
 import {
     AUTH_API_NAMES,
-    deleteOrganizationOperator
+    getClients
 } from "../../../api/auth/authz/auth.js";
 import defaultHandleSummaryBuilder from "../../../common/handleSummaryBuilder.js";
 import {defaultApiOptionsBuilder} from "../../../common/dynamicScenarios/defaultOptions.js";
@@ -12,13 +12,13 @@ import {getAuthToken} from "../../../common/utils.js";
 import {CONFIG} from "../../../common/envVars.js";
 
 const application = "auth";
-const testName = "deleteOrganizationOperator";
+const testName = "getClients";
 
 // Dynamic scenarios' K6 configuration
 export const options = defaultApiOptionsBuilder(
     application,
     testName,
-    [AUTH_API_NAMES.deleteOrganizationOperator] // applying apiName tags to thresholds
+    [AUTH_API_NAMES.getClients] // applying apiName tags to thresholds
 );
 
 // K6 summary configuration
@@ -32,13 +32,11 @@ export function setup() {
 // Test
 export default (data) => {
     const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
-    const mappedExternalUserId = "DUMMY_ID";
-
-    const result = deleteOrganizationOperator(data.token, ipaCode, mappedExternalUserId);
+    const result = getClients(data.token, ipaCode);
 
     assert(result, [statusOk()]);
 
     if (result.status !== 200) {
-        logErrorResult(testName, `Unexpected deleteOrganizationOperator status`, result, true);
+        logErrorResult(testName, `Unexpected getClients status`, result, true);
     }
 };
