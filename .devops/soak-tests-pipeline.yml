@@ -86,12 +86,10 @@ variables:
   # Comma separated list of tests to execute based on the SCRIPT parameter (if some test require the execution of more than one test, eg data preparation)
   - name: k6Test_runAll
     value: ./
+
+  # Authn tests
   - name: k6Test_runAll_Auth
     value: auth/
-
-  - name: k6Test_getTransactions
-    value: transactions/getTransactions
-
   - name: k6Test_auth/getUserInfo
     value: auth/authn/getUserInfo.js
   - name: k6Test_auth/postToken_clientCredentials_PU
@@ -103,6 +101,7 @@ variables:
   - name: k6Test_auth/logout
     value: auth/authn/logout.js
 
+  # Authz tests
   - name: k6Test_auth/registerRevokeClient
     value: auth/authz/registerRevokeClient.js
   - name: k6Test_auth/getClients
@@ -118,6 +117,7 @@ variables:
   - name: k6Test_auth/deleteOrganizationOperator
     value: auth/authz/deleteOrganizationOperator.js
 
+  # Mypay tests
   - name: k6Test_mypay/configAndLogin
     value: mypay/auth/configAndLogin.js
 

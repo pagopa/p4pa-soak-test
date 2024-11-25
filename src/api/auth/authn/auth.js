@@ -10,7 +10,7 @@ export const AUTH_API_NAMES = {
   logout: "auth/logout"
 };
 
-const baseUrl = authConfig.effectiveBaseUrl;
+const baseUrl = authConfig.baseUrl;
 
 export function postToken(
   grant_type,

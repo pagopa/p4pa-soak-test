@@ -14,7 +14,7 @@ export const AUTH_API_NAMES = {
   getUserInfoFromMappedExternaUserId: "auth/getUserInfoFromMappedExternaUserId"
 };
 
-const baseUrl = authConfig.effectiveBaseUrl;
+const baseUrl = authConfig.baseUrl;
 
 export function registerClient(token, ipaCode, clientName) {
   const apiName = AUTH_API_NAMES.registerClient;
