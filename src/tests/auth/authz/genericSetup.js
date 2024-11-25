@@ -1,7 +1,7 @@
 import {getAuthToken} from "../../../common/utils.js";
 import {logErrorResult} from "../../../common/dynamicScenarios/utils.js";
 import {CONFIG} from "../../../common/envVars.js";
-import {getOrganizationOperators} from "../../../api/auth/authz/auth";
+import {getOrganizationOperators} from "../../../api/auth/authz/auth.js";
 
 // Utility function to set up the test environment
 export function setupTestEnvironment(testName) {
