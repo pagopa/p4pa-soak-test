@@ -3,7 +3,7 @@ import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams, CONFIG } from "../../../common/envVars.js";
 import {getBaseUrl, getInnerBaseUrl} from "../../../common/environment.js";
-import authConfig from "../url";
+import authConfig from "../url.js";
 
 export const AUTH_API_NAMES = {
   postToken: "auth/postToken",
