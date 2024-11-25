@@ -35,8 +35,7 @@ export function setup() {
     return {
         token,
         clientId: body[0].clientId,
-        clientName: body[0].clientName,
-        organizationIpaCode: body[0].organizationIpaCode
+        ipaCode: body[0].organizationIpaCode
     };
 }
 

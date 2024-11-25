@@ -1,7 +1,6 @@
 import http from "k6/http";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import {buildDefaultParams, CONFIG} from "../../../common/envVars.js";
-import {getBaseUrl, getInnerBaseUrl} from "../../../common/environment.js";
 import authConfig from "../url.js";
 
 export const AUTH_API_NAMES = {
@@ -15,11 +14,9 @@ export const AUTH_API_NAMES = {
   getUserInfoFromMappedExternaUserId: "auth/getUserInfoFromMappedExternaUserId"
 };
 
-const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
-const pathAuth = authConfig.pathAuth;
 const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
-    ? innerBaseUrl
-    : `${getBaseUrl()}` + pathAuth;
+    ? authConfig.fullInnerBaseUrl
+    : authConfig.fullBaseUrl;
 
 export function registerClient(token, ipaCode, clientName) {
   const apiName = AUTH_API_NAMES.registerClient;

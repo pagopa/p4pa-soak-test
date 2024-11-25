@@ -2,7 +2,6 @@ import http from "k6/http";
 import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
 import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams, CONFIG } from "../../../common/envVars.js";
-import {getBaseUrl, getInnerBaseUrl} from "../../../common/environment.js";
 import authConfig from "../url.js";
 
 export const AUTH_API_NAMES = {
@@ -11,11 +10,9 @@ export const AUTH_API_NAMES = {
   logout: "auth/logout"
 };
 
-const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
-const pathAuth = authConfig.pathAuth;
 const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
-    ? innerBaseUrl
-    : `${getBaseUrl()}` + pathAuth;
+    ? authConfig.fullInnerBaseUrl
+    : authConfig.fullBaseUrl;
 
 export function postToken(
   grant_type,

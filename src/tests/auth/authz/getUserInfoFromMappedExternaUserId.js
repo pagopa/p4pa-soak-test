@@ -25,7 +25,7 @@ export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 
 // BeforeAll
 export function setup() {
-    return setupTestEnvironment(testName)
+    return setupTestEnvironment(testName);
 }
 
 // Test

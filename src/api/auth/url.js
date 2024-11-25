@@ -1,5 +1,11 @@
+import {getBaseUrl, getInnerBaseUrl} from "../../common/environment.js";
+
+const baseUrl = getBaseUrl();
+const innerBaseUrl = getInnerBaseUrl();
+
 const authConfig = {
-  pathAuth: "/payhub-auth"
+  fullBaseUrl: `${baseUrl}/payhub-auth`,
+  fullInnerBaseUrl: `${innerBaseUrl}/p4paauth`
 };
 
 export default authConfig;
