@@ -1,17 +1,17 @@
-import { assert, statusOk } from "../../common/assertions.js";
+import { assert, statusOk } from "../../../common/assertions.js";
 import {
   AUTH_API_NAMES,
   registerClient,
   revokeClient,
-} from "../../api/auth.js";
-import defaultHandleSummaryBuilder from "../../common/handleSummaryBuilder.js";
-import { defaultApiOptionsBuilder } from "../../common/dynamicScenarios/defaultOptions.js";
+} from "../../../api/auth/authz/auth.js";
+import defaultHandleSummaryBuilder from "../../../common/handleSummaryBuilder.js";
+import { defaultApiOptionsBuilder } from "../../../common/dynamicScenarios/defaultOptions.js";
 import {
   logErrorResult,
   testEntitiesBasedScenariosBaseIndexRetriever,
-} from "../../common/dynamicScenarios/utils.js";
-import { getAuthToken } from "../../common/utils.js";
-import { CONFIG } from "../../common/envVars.js";
+} from "../../../common/dynamicScenarios/utils.js";
+import { getAuthToken } from "../../../common/utils.js";
+import { CONFIG } from "../../../common/envVars.js";
 
 const application = "auth";
 const testName = "registerRevokeClient";
@@ -34,7 +34,7 @@ export function setup() {
 // Test
 export default (data) => {
   const ipaCode = CONFIG.CONTEXT.ORG_IPA_CODE;
-  const clientName = `SOAKTEST_CLIENTNAME_${testEntitiesBasedScenariosBaseIndexRetriever()}`;
+  const clientName = `SOAKTEST_CLIENTNAME_${testEntitiesBasedScenariosBaseIndexRetriever()}_${Date.now()}`;
   const client = registerClientAndCheck(data.token, ipaCode, clientName);
 
   if (client) {
@@ -56,7 +56,7 @@ export function registerClientAndCheck(token, ipaCode, clientName) {
   return {
     organizationIpaCode: body.organizationIpaCode,
     clientId: body.clientId,
-    clientSecret: body.clientSecret,
+    clientSecret: body.clientSecret
   };
 }
 

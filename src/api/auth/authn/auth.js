@@ -1,23 +1,18 @@
 import http from "k6/http";
 import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
-import { logResult } from "../common/dynamicScenarios/utils.js";
-import { buildDefaultParams, CONFIG } from "../common/envVars.js";
-import { getBaseUrl, getInnerBaseUrl } from "../common/environment.js";
+import { logResult } from "../../../common/dynamicScenarios/utils.js";
+import { buildDefaultParams, CONFIG } from "../../../common/envVars.js";
+import authConfig from "../url.js";
 
 export const AUTH_API_NAMES = {
   postToken: "auth/postToken",
   getUserInfo: "auth/getUserInfo",
-  registerClient: "auth/registerClient",
-  revokeClient: "auth/revokeClient",
+  logout: "auth/logout"
 };
 
-const innerBaseUrl = `${getInnerBaseUrl()}/p4paauth`;
-const baseUrl = CONFIG.USE_INTERNAL_ACCESS_ENV
-  ? innerBaseUrl
-  : `${getBaseUrl()}/auth`;
+const baseUrl = authConfig.baseUrl;
 
 export function postToken(
-  useInnerBaseUrl,
   grant_type,
   client_id,
   client_secret,
@@ -29,7 +24,7 @@ export function postToken(
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-    `${useInnerBaseUrl ? innerBaseUrl : baseUrl}/payhub/auth/token`
+    `${baseUrl}/auth/token`
   );
 
   url.searchParams.append("grant_type", grant_type);
@@ -52,7 +47,6 @@ export function postToken_tokenExchange(
   subject_token_type = "urn:ietf:params:oauth:token-type:jwt"
 ) {
   return postToken(
-    true,
     "urn:ietf:params:oauth:grant-type:token-exchange",
     client_id,
     undefined,
@@ -74,12 +68,10 @@ export function postToken_tokenExchangeFake(
 }
 
 export function postToken_clientCredentials(
-  useInnerBaseUrl,
   client_id,
   client_secret
 ) {
   return postToken(
-    useInnerBaseUrl,
     "client_credentials",
     client_id,
     client_secret
@@ -90,33 +82,27 @@ export function getUserInfo(token) {
   const apiName = AUTH_API_NAMES.getUserInfo;
   const myParams = buildDefaultParams(apiName, token);
 
-  const res = http.get(`${baseUrl}/payhub/auth/userinfo`, myParams);
+  const res = http.get(`${baseUrl}/auth/userinfo`, myParams);
   logResult(apiName, res);
   return res;
 }
 
-export function registerClient(token, ipaCode, clientName) {
-  const apiName = AUTH_API_NAMES.registerClient;
-  const myParams = buildDefaultParams(apiName, token);
+export function logout(clientId, token) {
+  const apiName = AUTH_API_NAMES.logout;
+  const myParams = buildDefaultParams(apiName);
+
+  const url = new URL(
+      `${baseUrl}/auth/revoke`
+  );
+  url.searchParams.append("client_id", clientId);
+  url.searchParams.append("token", token);
 
   const res = http.post(
-    `${baseUrl}/payhub/auth/clients/${ipaCode}`,
-    JSON.stringify({ clientName }),
-    myParams
+      url.toString(),
+      null,
+      myParams
   );
   logResult(apiName, res);
-  return res;
-}
 
-export function revokeClient(token, ipaCode, clientId) {
-  const apiName = AUTH_API_NAMES.revokeClient;
-  const myParams = buildDefaultParams(apiName, token);
-
-  const res = http.del(
-    `${baseUrl}/payhub/auth/clients/${ipaCode}/${clientId}`,
-    undefined,
-    myParams
-  );
-  logResult(apiName, res);
   return res;
 }

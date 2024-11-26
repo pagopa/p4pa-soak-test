@@ -104,11 +104,10 @@ export const defaultHeaders = {
 
 export function buildDefaultParams(apiName, token) {
   return {
-    headers: Object.assign(
-      {},
-      defaultHeaders,
-      token ? { Authorization: `Bearer ${token}` } : {}
-    ),
+    headers: {
+      ...defaultHeaders,
+      ...(token ? {Authorization: `Bearer ${token}`} : {})
+    },
     tags: { apiName },
     redirects: 0,
   };

@@ -1,17 +1,17 @@
-import { assert, statusOk } from "../../common/assertions.js";
-import { AUTH_API_NAMES, postToken_clientCredentials } from "../../api/auth.js";
-import defaultHandleSummaryBuilder from "../../common/handleSummaryBuilder.js";
-import { defaultApiOptionsBuilder } from "../../common/dynamicScenarios/defaultOptions.js";
-import { logErrorResult } from "../../common/dynamicScenarios/utils.js";
-import { CONFIG } from "../../common/envVars.js";
+import { assert, statusOk } from "../../../common/assertions.js";
+import { AUTH_API_NAMES, postToken_clientCredentials } from "../../../api/auth/authn/auth.js";
+import defaultHandleSummaryBuilder from "../../../common/handleSummaryBuilder.js";
+import { defaultApiOptionsBuilder } from "../../../common/dynamicScenarios/defaultOptions.js";
+import { logErrorResult } from "../../../common/dynamicScenarios/utils.js";
+import { CONFIG } from "../../../common/envVars.js";
 import {
   registerClientAndCheck,
   revokeClientAndCheck,
-} from "./registerRevokeClient.js";
-import { getAuthToken } from "../../common/utils.js";
+} from "../authz/registerRevokeClient.js";
+import { getAuthToken } from "../../../common/utils.js";
 
 const application = "auth";
-const testName = "postToken_clientCredentials_PU";
+const testName = "postToken_clientCredentials_SIL";
 
 // Dynamic scenarios' K6 configuration
 export const options = defaultApiOptionsBuilder(
@@ -26,13 +26,20 @@ export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 // BeforeAll
 export function setup() {
   const token = getAuthToken();
-  return {
-    token,
-    client: registerClientAndCheck(
+  const client = registerClientAndCheck(
       token,
       CONFIG.CONTEXT.ORG_IPA_CODE,
-      "postToken_clientCredentials_PU"
-    ),
+      "postToken_clientCredentials_SIL"
+  );
+
+  if (!client) {
+    logErrorResult(testName, `Register client return null value`, client, true);
+    return;
+  }
+
+  return {
+    token,
+    client
   };
 }
 
@@ -48,7 +55,6 @@ export function teardown(data) {
 // Test
 export default (data) => {
   const result = postToken_clientCredentials(
-    false,
     data.client.clientId,
     data.client.clientSecret
   );

@@ -1,9 +1,9 @@
-import { assert, statusOk } from "../../common/assertions.js";
-import { getUserInfo, AUTH_API_NAMES } from "../../api/auth.js";
-import defaultHandleSummaryBuilder from "../../common/handleSummaryBuilder.js";
-import { defaultApiOptionsBuilder } from "../../common/dynamicScenarios/defaultOptions.js";
-import { logErrorResult } from "../../common/dynamicScenarios/utils.js";
-import { getAuthToken } from "../../common/utils.js";
+import { assert, statusOk } from "../../../common/assertions.js";
+import { getUserInfo, AUTH_API_NAMES } from "../../../api/auth/authn/auth.js";
+import defaultHandleSummaryBuilder from "../../../common/handleSummaryBuilder.js";
+import { defaultApiOptionsBuilder } from "../../../common/dynamicScenarios/defaultOptions.js";
+import { logErrorResult } from "../../../common/dynamicScenarios/utils.js";
+import { getAuthToken } from "../../../common/utils.js";
 
 const application = "auth";
 const testName = "getUserInfo";

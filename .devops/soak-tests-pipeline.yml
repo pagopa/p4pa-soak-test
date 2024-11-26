@@ -24,12 +24,24 @@ parameters:
     type: string
     default: "auth/getUserInfo"
     values:
-      - auth/getUserInfo
-      - auth/postToken_clientCredentials_PU
-      - auth/postToken_clientCredentials_SIL
-      - auth/postToken_tokenExchange
-      - auth/registerRevokeClient
-      - mypay/configAndLogin
+      - runAll
+      
+      - runAll_Auth
+      - Authn_getUserInfo
+      - Authn_postToken_clientCredentials_PU
+      - Authn_postToken_clientCredentials_SIL
+      - Authn_postToken_tokenExchange
+      - Authn_logout
+
+      - Authz_registerRevokeClient
+      - Authz_getClients
+      - Authz_getClientSecret
+      - Authz_getOrganizationOperator
+      - Authz_getOrganizationOperators
+      - Authz_getUserInfoFromMappedExternaUserId
+      - Authz_deleteOrganizationOperator
+
+      - Mypay_configAndLogin
 
   - name: "SCENARIO"
     displayName: "Soak test type"
@@ -72,21 +84,42 @@ parameters:
 
 variables:
   # Comma separated list of tests to execute based on the SCRIPT parameter (if some test require the execution of more than one test, eg data preparation)
-  - name: k6Test_getTransactions
-    value: transactions/getTransactions
+  - name: k6Test_runAll
+    value: ./
 
-  - name: k6Test_auth/getUserInfo
-    value: auth/getUserInfo.js
-  - name: k6Test_auth/postToken_clientCredentials_PU
-    value: auth/postToken_clientCredentials_PU.js
-  - name: k6Test_auth/postToken_clientCredentials_SIL
-    value: auth/postToken_clientCredentials_SIL.js
-  - name: k6Test_auth/postToken_tokenExchange
-    value: auth/postToken_tokenExchange.js
-  - name: k6Test_auth/registerRevokeClient
-    value: auth/registerRevokeClient.js
-  - name: k6Test_mypay/configAndLogin
-    value: mypay/configAndLogin.js
+  # Authn tests
+  - name: k6Test_runAll_Auth
+    value: auth/
+  - name: k6Test_Authn_getUserInfo
+    value: auth/authn/getUserInfo.js
+  - name: k6Test_Authn_postToken_clientCredentials_PU
+    value: auth/authn/postToken_clientCredentials_PU.js
+  - name: k6Test_Authn_postToken_clientCredentials_SIL
+    value: auth/authn/postToken_clientCredentials_SIL.js
+  - name: k6Test_Authn_postToken_tokenExchange
+    value: auth/authn/postToken_tokenExchange.js
+  - name: k6Test_Authn_logout
+    value: auth/authn/logout.js
+
+  # Authz tests
+  - name: k6Test_Authz_registerRevokeClient
+    value: auth/authz/registerRevokeClient.js
+  - name: k6Test_Authz_getClients
+    value: auth/authz/getClients.js
+  - name: k6Test_Authz_getClientSecret
+    value: auth/authz/getClientSecret.js
+  - name: k6Test_Authz_getOrganizationOperator
+    value: auth/authz/getOrganizationOperator.js
+  - name: k6Test_Authz_getOrganizationOperators
+    value: auth/authz/getOrganizationOperators.js
+  - name: k6Test_Authz_getUserInfoFromMappedExternaUserId
+    value: auth/authz/getUserInfoFromMappedExternaUserId.js
+  - name: k6Test_Authz_deleteOrganizationOperator
+    value: auth/authz/deleteOrganizationOperator.js
+
+  # Mypay tests
+  - name: k6Test_Mypay_configAndLogin
+    value: mypay/auth/configAndLogin.js
 
   # Resolved list of k6 script to execute
   - name: SCRIPTS_TO_EXECUTE
