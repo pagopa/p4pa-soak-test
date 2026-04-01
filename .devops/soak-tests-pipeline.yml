@@ -121,6 +121,10 @@ variables:
   - name: k6Test_Mypay_configAndLogin
     value: mypay/auth/configAndLogin.js
 
+  # PU BFF tests
+  - name: k6Test_BFF_getHealthStatus
+    value: bff/monitoring/getHealthStatus.js
+
   # Resolved list of k6 script to execute
   - name: SCRIPTS_TO_EXECUTE
     value: ${{ variables[format('k6Test_{0}', parameters.SCRIPT)] }}
