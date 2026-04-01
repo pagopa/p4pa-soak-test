@@ -4,13 +4,13 @@ import { buildDefaultParams } from "../../../common/envVars.js";
 import authConfig from "../url.js";
 
 export const PU_BFF_API_NAMES = {
-  coreHealth: "bff/monitoring/getHealthStatus",
+  getHealthStatus: "bff/monitoring/getHealthStatus",
 };
 
 const baseUrl = authConfig.baseUrl;
 
 export function getHealthStatus() {
-  const apiName = PU_BFF_API_NAMES.coreHealth;
+  const apiName = PU_BFF_API_NAMES.getHealthStatus;
   const myParams = buildDefaultParams(apiName);
 
   const res = http.get(
