@@ -14,7 +14,7 @@ export function getHealthStatus() {
   const myParams = buildDefaultParams(apiName);
 
   const res = http.get(
-    `${baseUrl}/pu/bff/core-health`,
+    `${baseUrl}/core-health`,
     myParams
   );
   logResult(apiName, res);
