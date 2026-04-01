@@ -43,6 +43,8 @@ parameters:
 
       - Mypay_configAndLogin
 
+      - BFF_getHealthStatus
+
   - name: "SCENARIO"
     displayName: "Soak test type"
     type: string
