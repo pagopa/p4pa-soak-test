@@ -1,5 +1,5 @@
 import http from "k6/http";
-import { logResult } from "../../common/dynamicScenarios/utils.js";
+import { logResult } from "../../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams } from "../../../common/envVars.js";
 import authConfig from "../url.js";
 
