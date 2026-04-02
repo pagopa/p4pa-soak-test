@@ -43,6 +43,8 @@ parameters:
 
       - Mypay_configAndLogin
 
+      - BFF_getHealthStatus
+
   - name: "SCENARIO"
     displayName: "Soak test type"
     type: string
@@ -120,6 +122,10 @@ variables:
   # Mypay tests
   - name: k6Test_Mypay_configAndLogin
     value: mypay/auth/configAndLogin.js
+
+  # PU BFF tests
+  - name: k6Test_BFF_getHealthStatus
+    value: bff/monitoring/getHealthStatus.js
 
   # Resolved list of k6 script to execute
   - name: SCRIPTS_TO_EXECUTE
