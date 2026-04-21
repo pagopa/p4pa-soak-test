@@ -8,7 +8,7 @@ const authConfig = {
   innerBaseUrl: `${innerBaseUrl}/p4paauth/payhub`,
   baseUrl: CONFIG.USE_INTERNAL_ACCESS_ENV
       ? `${innerBaseUrl}/p4paauth/payhub`
-      : `${baseUrl}/payhub-auth`
+      : `${baseUrl}/pu/auth`
 };
 
 export default authConfig;

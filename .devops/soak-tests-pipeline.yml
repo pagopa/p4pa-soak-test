@@ -45,6 +45,9 @@ parameters:
 
       - BFF_getHealthStatus
 
+      - CIE_getOrganizations
+      - CIE_getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode
+
   - name: "SCENARIO"
     displayName: "Soak test type"
     type: string
@@ -126,6 +129,13 @@ variables:
   # PU BFF tests
   - name: k6Test_BFF_getHealthStatus
     value: bff/monitoring/getHealthStatus.js
+
+  # PU CIE tests
+  - name: k6Test_CIE_getOrganizations
+    value: cie/getOrganizations.js
+  
+  - name: k6Test_CIE_getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode
+    value: cie/getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode.js
 
   # Resolved list of k6 script to execute
   - name: SCRIPTS_TO_EXECUTE
