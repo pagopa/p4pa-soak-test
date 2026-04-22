@@ -237,10 +237,10 @@ jobs:
 
             - script: |
                 function extractSecret() {
-                  SECRET_KEY=$1
-                  ENV_NAME=$2
-                  VALUE=$(jq ".values [] | select(.key==\"$SECRET_KEY\") | .value"  $(postman_env.secureFilePath))
-                  echo "##vso[task.setvariable variable=$ENV_NAME]$VALUE"
+                SECRET_KEY=$1
+                ENV_NAME=$2
+                VALUE=$(jq -r ".values [] | select(.key==\"$SECRET_KEY\") | .value"  $(postmanEnvFile))
+                echo "##vso[task.setvariable variable=$ENV_NAME]$VALUE"
                 }
 
                 extractSecret tokenExchange_subjectToken SELFCARE_TOKEN_EXCHANGE_ENV
