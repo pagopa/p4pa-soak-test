@@ -9,7 +9,7 @@ import { getOrganizations } from "../../api/cie/organizationCie.js";
 import { VALID_DEBT_POSITION_TYPE_ORG_CODES } from "../../common/pagopapaymentsUtils.js";
 import { abort, getAuthToken, getRandom } from "../../common/utils.js";
 import { getDebtPositionTypeOrgsWithSpontaneous } from "../../api/citizen/debtPositionTypeOrg.js";
-import { getBroker } from "../../api/organization/brokerentity.js"
+import { getBroker } from "../../api/organization/brokerEntity.js"
 import { getOrganizationsWithSpontaneous } from "../../api/citizen/organization.js";
 import { CONFIG } from "../../common/envVars.js";
 import { getUserInfo } from "../../api/auth/authn/auth.js";
