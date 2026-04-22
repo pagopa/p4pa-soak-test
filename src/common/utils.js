@@ -118,3 +118,7 @@ export function getCsvData(filePath, hasHeader) {
     })
     .data.filter((r) => Object.values(r)[0]);
 }
+
+export const getRandom = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};

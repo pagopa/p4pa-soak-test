@@ -32,8 +32,13 @@ export const CONFIG = {
         CLIENT_SECRET: __ENV.CLIENT_SECRET_PU_ENV,
       },
     },
+    PAGOPA_PAYMENTS: {
+      SERVICE_ID: "99",
+      SERVICE_SUBJECT_ID: "12",
+    },
     EXTERNAL_USER_ID: __ENV.EXTERNAL_USER_ID_ENV,
     ORG_IPA_CODE: coalesce(__ENV.ORG_IPA_CODE_ENV, "IPA_TEST_2"),
+    BROKER_ID: parseInt(__ENV.BROKER_ID),
   },
 
   SCENARIOS: {
@@ -104,10 +109,11 @@ export const defaultHeaders = {
 
 export function buildDefaultParams(apiName, token) {
   return {
-    headers: {
-      ...defaultHeaders,
-      ...(token ? {Authorization: `Bearer ${token}`} : {})
-    },
+    headers: Object.assign(
+      {},
+      defaultHeaders,
+      token ? { Authorization: `Bearer ${token}` } : {},
+    ),
     tags: { apiName },
     redirects: 0,
   };
