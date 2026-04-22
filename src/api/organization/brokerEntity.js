@@ -4,7 +4,7 @@ import { buildDefaultParams } from "../../common/envVars.js";
 import { organizationConfig } from "./url.js";
 
 export const BROKER_ENTITY_API_NAMES = {
-  getBroker: "organization/brokerEntity",
+  getBroker: "organization/brokerentity",
 };
 
 const baseUrl = organizationConfig.baseUrl;
