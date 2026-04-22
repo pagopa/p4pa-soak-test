@@ -53,7 +53,7 @@ parameters:
   - name: "BROKER_ID"
     displayName: "Broker ID"
     type: string
-    default: " "
+    default: ""
 
   - name: "SCENARIO"
     displayName: "Soak test type"
