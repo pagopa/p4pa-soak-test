@@ -6,7 +6,6 @@ import {
   PAGOPA_PAYMENTS_API_NAMES,
 } from "../../api/pagopapayments/paDemandPaymentNotice.js";
 import { getOrganizations } from "../../api/cie/organizationCie.js";
-import { VALID_DEBT_POSITION_TYPE_ORG_CODES } from "../../common/pagopapaymentsUtils.js";
 import { abort, getAuthToken, getRandom } from "../../common/utils.js";
 import { getDebtPositionTypeOrgsWithSpontaneous } from "../../api/citizen/debtPositionTypeOrg.js";
 import { getBroker } from "../../api/organization/brokerEntity.js"
