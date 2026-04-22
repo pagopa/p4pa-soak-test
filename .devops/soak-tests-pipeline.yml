@@ -45,6 +45,9 @@ parameters:
 
       - BFF_getHealthStatus
 
+      - CIE_getOrganizations
+      - CIE_getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode
+
   - name: "SCENARIO"
     displayName: "Soak test type"
     type: string
@@ -127,6 +130,13 @@ variables:
   - name: k6Test_BFF_getHealthStatus
     value: bff/monitoring/getHealthStatus.js
 
+  # PU CIE tests
+  - name: k6Test_CIE_getOrganizations
+    value: cie/getOrganizations.js
+  
+  - name: k6Test_CIE_getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode
+    value: cie/getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode.js
+
   # Resolved list of k6 script to execute
   - name: SCRIPTS_TO_EXECUTE
     value: ${{ variables[format('k6Test_{0}', parameters.SCRIPT)] }}
@@ -145,6 +155,12 @@ variables:
       - name: SELFCARE_TOKEN_ISSUER_ENV
         value: https://dev.selfcare.pagopa.it
 
+      - name: azureServiceConnectionName
+        value: $(DEV_AZURE_SERVICE_CONNECTION_NAME)
+
+      - name: keyVaultName
+        value: $(DEV_KV_NAME)
+
   - ${{ else }}:
       - name: selfHostedAgentPool
         value: $(UAT_AGENT_POOL)
@@ -157,6 +173,12 @@ variables:
         value: IPA_TEST_2
       - name: SELFCARE_TOKEN_ISSUER_ENV
         value: https://uat.selfcare.pagopa.it
+      
+      - name: azureServiceConnectionName
+        value: $(UAT_AZURE_SERVICE_CONNECTION_NAME)
+      
+      - name: keyVaultName
+        value: $(UAT_KV_NAME)
 
   # Decoding scenario type
   - ${{ if eq(parameters.SCENARIO, 'Fixed TPS') }}:
@@ -180,18 +202,45 @@ jobs:
               displayName: Checkout
               fetchDepth: 1
 
-            - task: DownloadSecureFile@1
-              displayName: "download postman environment"
-              name: postman_env
+            - task: AzureCLI@2
+              name: fetchSecretFromKeyVault
+              displayName: 'Fetch Secret from Key Vault using Azure CLI'
               inputs:
-                secureFile: $(postmanEnvFile)
+                azureSubscription: '${{ variables.azureServiceConnectionName }}'
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  echo "🔐 Fetching secret from Key Vault..."
+
+                  # Create directory for environment file
+                  mkdir -p $(Pipeline.Workspace)/postman
+
+                  # Fetch secret and save to file
+                  az keyvault secret show \
+                    --name "postman-environment" \
+                    --vault-name "${{ variables.keyVaultName }}" \
+                    --query 'value' -o tsv > $(Pipeline.Workspace)/postman/environment.json
+
+                  if [ $? -ne 0 ]; then
+                    echo "##[error]Failed to fetch secret from Key Vault"
+                    exit 1
+                  fi
+
+                  # Validate JSON format
+                  if ! jq empty $(Pipeline.Workspace)/postman/environment.json 2>/dev/null; then
+                    echo "##[error]Invalid JSON format in environment file"
+                    exit 1
+                  fi
+
+                  echo "##vso[task.setvariable variable=postmanEnvFile]$(Pipeline.Workspace)/postman/environment.json"
+                  echo "✅ Secret fetched and validated successfully"
 
             - script: |
                 function extractSecret() {
-                  SECRET_KEY=$1
-                  ENV_NAME=$2
-                  VALUE=$(jq ".values [] | select(.key==\"$SECRET_KEY\") | .value"  $(postman_env.secureFilePath))
-                  echo "##vso[task.setvariable variable=$ENV_NAME]$VALUE"
+                SECRET_KEY=$1
+                ENV_NAME=$2
+                VALUE=$(jq -r ".values [] | select(.key==\"$SECRET_KEY\") | .value"  $(postmanEnvFile))
+                echo "##vso[task.setvariable variable=$ENV_NAME]$VALUE"
                 }
 
                 extractSecret tokenExchange_subjectToken SELFCARE_TOKEN_EXCHANGE_ENV

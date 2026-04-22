@@ -4,11 +4,9 @@ import {CONFIG} from "../../common/envVars.js";
 const baseUrl = getBaseUrl();
 const innerBaseUrl = getInnerBaseUrl();
 
-const authConfig = {
-  innerBaseUrl: `${innerBaseUrl}/p4paauth/payhub`,
+export const cieConfig = {
+  innerBaseUrl: `${innerBaseUrl}/p4pacie`,
   baseUrl: CONFIG.USE_INTERNAL_ACCESS_ENV
-      ? `${innerBaseUrl}/p4paauth/payhub`
-      : `${baseUrl}/pu/auth`
+      ? `${innerBaseUrl}/p4pacie`
+      : `${baseUrl}/pu/cie`
 };
-
-export default authConfig;

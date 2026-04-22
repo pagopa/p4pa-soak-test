@@ -24,7 +24,7 @@ export function postToken(
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-    `${baseUrl}/auth/token`
+    `${baseUrl}/oauth/token`
   );
 
   url.searchParams.append("grant_type", grant_type);
