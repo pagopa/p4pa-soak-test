@@ -31,9 +31,7 @@ export const options = defaultApiOptionsBuilder(
 export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 
 export function setup() {
-  // const authToken = getAuthToken();
-  const authToken = "eyJraWQiOiI3ZTJiODllYy00ZDM2LTMyOTctYWE1OS1lYzE5N2UzMGU5NDMiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJ0eXAiOiJiZWFyZXIiLCJpc3MiOiJkZXYucGlhdHRhZm9ybWF1bml0YXJpYS5wYWdvcGEuaXQiLCJqdGkiOiI3ZmNmNWUzMy0zZjRkLTQ4MTktYmIyMi0yYWUxZmYxZDFkZDYiLCJzdWIiOiJFVXFLaUQxcHNMckdOdUx4Q0d6cml5LXJveVBsQnZ1eWVKTWMwZHhheE5zPSIsImlhdCI6MTc3Njg2MTYyMywiZXhwIjoxNzc2ODc2MDIzLCJvcmdhbml6YXRpb25JcGFDb2RlIjoiSVBBX1RFU1QifQ.M4Qz2IdDZDsYTMxp3Sh_R5yVdu74aHjaTrdnIe-IstaY98SS70Bwn9EYs2Lj9qrMUzzan93R4w0SsvaYLhTYCMPgN4npT-N8ttDo_gYEgQhfRM1yT4lQdVH4_I8Db0az-xsxnHjbFfkW80Fq1QIrCDDVo7qBsPnUXGVzyaww9jDNUuFfJYFxgDRsPn9CckcAphSrGXoNYVuSdoGtmd9z6CwtvYWyF-QITULl-KXkcFHlZahcARWidYUXITE3s5I0QBLqOkbT7HBdbmhRUGNCjLGxleXDNEVZ6-Lbcf9eURfJVY16osIommiJWTSw_oUMnMexSpWhJBjHhCVl-RMFhA";
-
+  const authToken = getAuthToken();
   const userinfo = getUserInfo(authToken);
   const brokerId = CONFIG.CONTEXT.BROKER_ID;
 
