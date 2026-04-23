@@ -36,16 +36,13 @@ export function setup() {
 
   const organizationCie = getRandomCieOrganization();
   const debtPositionTypeOrgCode = getRandomDebtPositionTypeOrgCodeCie();
-  const organizationWithSpontaneous = getRandomOrganizationWithSpontaneousResult(
-    brokerId,
-    authToken,
-  );
+  const organizationWithSpontaneous = getRandomOrganizationWithSpontaneousResult(brokerId, authToken);
   const debtPositionTypeOrgsWithSpontaneous =
     getDebtPositionTypeOrgsWithSpontaneousResult(
       brokerId,
       organizationWithSpontaneous.organizationId,
       debtPositionTypeOrgCode,
-      authToken,
+      authToken
     );
   const broker = getBrokerResult(brokerId, authToken);
 
@@ -60,12 +57,12 @@ export function setup() {
       organizationCie.value,
       userinfo.fiscalCode,
       userinfo.familyName,
-    ),
+    )
   );
 
   return {
-    authToken,
-    paDemandPaymentNoticeRequest,
+    token: authToken,
+    paDemandPaymentNoticeRequest
   };
 }
 
@@ -73,7 +70,7 @@ export function setup() {
 export default (data) => {
   const result = paDemandPaymentNotice(
     data.paDemandPaymentNoticeRequest,
-    data.token,
+    data.token
   );
 
   assert(result, [statusOk()]);
