@@ -82,7 +82,7 @@ export function getUserInfo(token) {
   const apiName = AUTH_API_NAMES.getUserInfo;
   const myParams = buildDefaultParams(apiName, token);
 
-  const res = http.get(`${baseUrl}/auth/userinfo`, myParams);
+  const res = http.get(`${baseUrl}/oauth/userinfo`, myParams);
   logResult(apiName, res);
   return res;
 }
@@ -92,7 +92,7 @@ export function logout(clientId, token) {
   const myParams = buildDefaultParams(apiName);
 
   const url = new URL(
-      `${baseUrl}/auth/revoke`
+      `${baseUrl}/oauth/revoke`
   );
   url.searchParams.append("client_id", clientId);
   url.searchParams.append("token", token);
