@@ -6,12 +6,11 @@ import {
   PAGOPA_PAYMENTS_API_NAMES,
 } from "../../api/pagopapayments/paDemandPaymentNotice.js";
 import { getOrganizations } from "../../api/cie/organizationCie.js";
-import { abort, getAuthToken, getRandom } from "../../common/utils.js";
+import { abort, getAuthToken, getRandom, randomFiscalCode } from "../../common/utils.js";
 import { getDebtPositionTypeOrgsWithSpontaneous } from "../../api/citizen/debtPositionTypeOrg.js";
 import { getBroker } from "../../api/organization/brokerEntity.js";
 import { getOrganizationsWithSpontaneous } from "../../api/citizen/organization.js";
 import { CONFIG } from "../../common/envVars.js";
-import { getUserInfo } from "../../api/auth/authn/auth.js";
 import { logErrorResult } from "../../common/dynamicScenarios/utils.js";
 import { DemandPaymentNotice, RequestData } from "../../model/pagopapayments/demandPaymentNoticeCie.js";
 import { getRandomDebtPositionTypeOrgCodeCie } from "../../common/debtPositionUtils.js";
@@ -31,7 +30,6 @@ export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 
 export function setup() {
   const authToken = getAuthToken();
-  const userinfo = getUserInfo(authToken).json();
   const brokerId = CONFIG.CONTEXT.BROKER_ID_CIE;
 
   const organizationCie = getRandomCieOrganization();
@@ -55,8 +53,8 @@ export function setup() {
     new RequestData(
       debtPositionTypeOrgCode,
       organizationCie.value,
-      userinfo.fiscalCode,
-      userinfo.familyName,
+      randomFiscalCode(),
+      "SOAK_TEST",
     )
   );
 
