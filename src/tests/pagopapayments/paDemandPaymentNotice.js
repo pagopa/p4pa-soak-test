@@ -8,7 +8,7 @@ import {
 import { getOrganizations } from "../../api/cie/organizationCie.js";
 import { abort, getAuthToken, getRandom } from "../../common/utils.js";
 import { getDebtPositionTypeOrgsWithSpontaneous } from "../../api/citizen/debtPositionTypeOrg.js";
-import { getBroker } from "../../api/organization/brokerEntity.js"
+import { getBroker } from "../../api/organization/brokerEntity.js";
 import { getOrganizationsWithSpontaneous } from "../../api/citizen/organization.js";
 import { CONFIG } from "../../common/envVars.js";
 import { getUserInfo } from "../../api/auth/authn/auth.js";
@@ -31,7 +31,7 @@ export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 
 export function setup() {
   const authToken = getAuthToken();
-  const userinfo = getUserInfo(authToken);
+  const userinfo = getUserInfo(authToken).json();
   const brokerId = CONFIG.CONTEXT.BROKER_ID_CIE;
 
   const organizationCie = getRandomCieOrganization();
@@ -48,7 +48,7 @@ export function setup() {
 
   const paDemandPaymentNoticeRequest = new DemandPaymentNotice(
     organizationWithSpontaneous.orgFiscalCode,
-    broker.fiscalCode,
+    broker.brokerFiscalCode,
     CONFIG.CONTEXT.PAGOPA_PAYMENTS.SERVICE_ID,
     broker.stationId,
     CONFIG.CONTEXT.PAGOPA_PAYMENTS.SERVICE_SUBJECT_ID,
@@ -75,7 +75,10 @@ export default (data) => {
 
   assert(result, [statusOk()]);
 
-  if (result.status !== 200) {
+  console.log(result.body);
+  const outcomeRes = result.body.includes("<outcome>OK</outcome>");
+
+  if (result.status !== 200 || !outcomeRes) {
     logErrorResult(testName, `Unexpected ${testName} status`, result, true);
   }
 };
@@ -106,13 +109,13 @@ const getDebtPositionTypeOrgsWithSpontaneousResult = (
   brokerId,
   organizationId,
   code,
-  authToken,
+  authToken
 ) => {
   const debtPositionTypeOrgsWithSpontaneous =
     getDebtPositionTypeOrgsWithSpontaneous(
       brokerId,
       organizationId,
-      authToken,
+      authToken
     ).json();
   if (debtPositionTypeOrgsWithSpontaneous.length === 0) {
     abort(

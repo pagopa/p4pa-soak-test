@@ -25,15 +25,16 @@ export function paDemandPaymentNotice(demandPaymentNotice, token) {
     demandPaymentNotice.requestData.debtorFiscalCode,
     demandPaymentNotice.requestData.debtorFullName,
   );
-  const datiSpecificiServizioRequestBase64 = encoding.b64encode(datiSpecificiServiziXml);
-
+  const cleanXml = datiSpecificiServiziXml.trim();
+  const datiSpecificiServizioRequestBase64 = encoding.b64encode(cleanXml);
+  
   const xmlBody = buildPaDemandPaymentNoticeXml(
     demandPaymentNotice.delegateOrgFiscalCode,
-    demandPaymentNotice.brokerId,
+    demandPaymentNotice.brokerFiscalCode,
     demandPaymentNotice.stationId,
     demandPaymentNotice.serviceId,
     demandPaymentNotice.serviceSubjectId,
-    datiSpecificiServizioRequestBase64,
+    datiSpecificiServizioRequestBase64
   );
 
   const res = http.post(`${baseUrl}/soap/node/wsdl/PaForNode`, xmlBody, myParams);
