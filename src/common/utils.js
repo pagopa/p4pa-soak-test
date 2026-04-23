@@ -30,7 +30,7 @@ export function getAuthToken() {
     logResult("postToken", result, 200);
     abort("Cannot retrieve fake auth token");
   }
-  return result.json().accessToken;
+  return result.json().access_token;
 }
 
 /** Given a list of test entities, it will return 1 of them starting from the first once reached the end */
@@ -118,3 +118,7 @@ export function getCsvData(filePath, hasHeader) {
     })
     .data.filter((r) => Object.values(r)[0]);
 }
+
+export const getRandom = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};

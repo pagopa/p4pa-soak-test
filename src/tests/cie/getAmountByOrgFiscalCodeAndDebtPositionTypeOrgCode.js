@@ -5,6 +5,7 @@ import { logErrorResult } from "../../common/dynamicScenarios/utils.js";
 import { getTestEntity } from "../../common/utils.js";
 import { CIE_API_NAMES, getOrganizations } from "../../api/cie/organizationCie.js";
 import { getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode } from "../../api/cie/organizationCie.js"
+import { getRandomDebtPositionTypeOrgCodeCie } from "../../common/debtPositionUtils.js";
 
 const application = "cie/organizationCie";
 const testName = "getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode";
@@ -26,9 +27,10 @@ export function setup() {
     abort("No elements found in organizations list please restart test with at least one element");
   }
 
+  const debtPositionTypeOrgCode = getRandomDebtPositionTypeOrgCodeCie();
   return {
     orgFiscalCodes: organizations.map(o => o.value),
-    debtPositionTypeOrgCode: "CIE"
+    debtPositionTypeOrgCode
   };
 
 }
