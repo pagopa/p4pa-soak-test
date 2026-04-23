@@ -38,8 +38,8 @@ export const CONFIG = {
     },
     EXTERNAL_USER_ID: __ENV.EXTERNAL_USER_ID_ENV,
     ORG_IPA_CODE: coalesce(__ENV.ORG_IPA_CODE_ENV, "IPA_TEST_2"),
-    BROKER_ID: parseInt(__ENV.BROKER_ID)
-  },
+    BROKER_ID_CIE: __ENV.TARGET_ENV === "DEV" ? 15 : 7
+    },
 
   SCENARIOS: {
     TYPES: coalesce(__ENV.SCENARIO_TYPE_ENV, "constant-arrival-rate").split(

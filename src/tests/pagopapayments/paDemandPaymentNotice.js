@@ -32,7 +32,7 @@ export const handleSummary = defaultHandleSummaryBuilder(application, testName);
 export function setup() {
   const authToken = getAuthToken();
   const userinfo = getUserInfo(authToken);
-  const brokerId = CONFIG.CONTEXT.BROKER_ID;
+  const brokerId = CONFIG.CONTEXT.BROKER_ID_CIE;
 
   const organizationCie = getRandomCieOrganization();
   const debtPositionTypeOrgCode = getRandomDebtPositionTypeOrgCodeCie();

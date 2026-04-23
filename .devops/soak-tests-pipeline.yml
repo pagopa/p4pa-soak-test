@@ -49,11 +49,6 @@ parameters:
       - CIE_getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode
 
       - Pagopa_payments_paDemandPaymentNotice
-  
-  - name: "BROKER_ID"
-    displayName: "Broker ID"
-    type: string
-    default: ""
 
   - name: "SCENARIO"
     displayName: "Soak test type"
@@ -288,7 +283,6 @@ jobs:
                       -e THRESHOLDS_API_MAX_P90_MS_ENV=${{ parameters.THRESHOLDS_API_MAX_P90_MS_ENV }} \
                       -e THRESHOLDS_API_MAX_P95_MS_ENV=${{ parameters.THRESHOLDS_API_MAX_P95_MS_ENV }} \
                       \
-                      -e BROKER_ID=${{ parameters.BROKER_ID }} \
                       --entrypoint /app/runAll.sh \
                       grafana/k6:latest \
                       ${{ parameters.TARGET_ENV }} ${{k6Test}}
