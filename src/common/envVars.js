@@ -1,5 +1,5 @@
 import { coalesce } from "./utils.js";
-import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+import tracing from 'https://jslib.k6.io/http-instrumentation-tempo/1.0.1/index.js';
 
 const vu = parseInt(coalesce(__ENV.VUS_MAX_ENV, 3));
 
@@ -7,6 +7,10 @@ const rampStageNumber = Math.max(
   parseInt(coalesce(__ENV.SCENARIO_RAMP_STAGE_NUMBER_ENV, 3)),
   3
 );
+
+export const instrumentedHttp = tracing.instrumentHTTP({
+  propagator: 'w3c',
+});
 
 export const CONFIG = {
   TARGET_ENV: __ENV.TARGET_ENV,
@@ -108,31 +112,17 @@ export const defaultHeaders = {
   "Content-Type": "application/json",
 };
 
-/**
- * Generates a W3C-compliant Trace Context (traceparent).
- * In future, if specific telemetry integrations are needed, this can be replaced by the official Grafana k6 library.
- * (See https://grafana.com/docs/k6/latest/javascript-api/jslib/http-instrumentation-tempo).
- */
-function generateTraceContext() {
-  const traceId = uuidv4().replace(/-/g, '');
-  const parentId = uuidv4().replace(/-/g, '').substring(0, 16);
-  
-  const traceparent = `00-${traceId}-${parentId}-01`;
-  
-  return { traceId, traceparent };
-}
-
 export function buildDefaultParams(apiName, token) {
-  const { traceId, traceparent } = generateTraceContext();
+  const traceContext = tracing.getTraceContext();
+  const currentTraceId = traceContext ? traceContext.traceId : 'N/A';
 
-  console.log(`[TRACE INFO] API: ${apiName} | TRACE_ID: ${traceId} | traceparent: ${traceparent}`);
-
+  console.log(`[TRACE INFO] API: ${apiName} | TRACE_ID: ${currentTraceId}`);
+  
   return {
     headers: Object.assign(
       {},
       defaultHeaders,
       token ? { Authorization: `Bearer ${token}` } : {},
-      { traceparent: traceparent }
     ),
     tags: { apiName },
     redirects: 0,
