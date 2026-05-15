@@ -1,5 +1,5 @@
 import { coalesce } from "./utils.js";
-import crypto from "k6/crypto";
+import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
 const vu = parseInt(coalesce(__ENV.VUS_MAX_ENV, 3));
 
@@ -114,8 +114,8 @@ export const defaultHeaders = {
  * (See https://grafana.com/docs/k6/latest/javascript-api/jslib/http-instrumentation-tempo).
  */
 function generateTraceContext() {
-  const traceId = crypto.randomUUID().replace(/-/g, '');
-  const parentId = crypto.randomUUID().replace(/-/g, '').substring(0, 16);
+  const traceId = uuidv4().replace(/-/g, '');
+  const parentId = uuidv4().replace(/-/g, '').substring(0, 16);
   
   const traceparent = `00-${traceId}-${parentId}-01`;
   
