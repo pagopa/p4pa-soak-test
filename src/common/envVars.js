@@ -1,4 +1,5 @@
 import { coalesce } from "./utils.js";
+import crypto from "k6/crypto";
 
 const vu = parseInt(coalesce(__ENV.VUS_MAX_ENV, 3));
 
@@ -107,12 +108,31 @@ export const defaultHeaders = {
   "Content-Type": "application/json",
 };
 
+/**
+ * Generates a W3C-compliant Trace Context (traceparent).
+ * In future, if specific telemetry integrations are needed, this can be replaced by the official Grafana k6 library.
+ * (See https://grafana.com/docs/k6/latest/javascript-api/jslib/http-instrumentation-tempo).
+ */
+function generateTraceContext() {
+  const traceId = crypto.randomUUID().replace(/-/g, '');
+  const parentId = crypto.randomUUID().replace(/-/g, '').substring(0, 16);
+  
+  const traceparent = `00-${traceId}-${parentId}-01`;
+  
+  return { traceId, traceparent };
+}
+
 export function buildDefaultParams(apiName, token) {
+  const { traceId, traceparent } = generateTraceContext();
+
+  console.log(`[TRACE INFO] API: ${apiName} | TRACE_ID: ${traceId} | traceparent: ${traceparent}`);
+
   return {
     headers: Object.assign(
       {},
       defaultHeaders,
       token ? { Authorization: `Bearer ${token}` } : {},
+      { traceparent: traceparent }
     ),
     tags: { apiName },
     redirects: 0,
