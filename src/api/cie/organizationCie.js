@@ -2,7 +2,6 @@ import http from "k6/http";
 import { logResult } from "../../common/dynamicScenarios/utils.js";
 import { buildDefaultParams } from "../../common/envVars.js";
 import { cieConfig } from "./url.js";
-import { instrumentedHttp } from "../../common/envVars.js"
 
 export const CIE_API_NAMES = {
  getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode: "cie/getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode",
@@ -27,7 +26,7 @@ export function getOrganizations() {
   const apiName = CIE_API_NAMES.getOrganizations;
   const myParams = buildDefaultParams(apiName);
 
-  const res = instrumentedHttp.get(
+  const res = http.get(
     `${baseUrl}/public/organizations`,
     myParams
   );
