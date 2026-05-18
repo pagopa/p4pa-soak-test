@@ -1,8 +1,6 @@
 import { coalesce } from "./utils.js";
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
-const GLOBAL_TRACE_ID = __ENV.TRACE_ID_ENV;
-
 const vu = parseInt(coalesce(__ENV.VUS_MAX_ENV, 3));
 
 const rampStageNumber = Math.max(
@@ -11,6 +9,7 @@ const rampStageNumber = Math.max(
 );
 
 export const CONFIG = {
+  GLOBAL_TRACE_ID: __ENV.TRACE_ID_ENV,
   TARGET_ENV: __ENV.TARGET_ENV,
   USE_INTERNAL_ACCESS_ENV:
     __ENV.USE_INTERNAL_ACCESS_ENV &&
@@ -112,7 +111,7 @@ export const defaultHeaders = {
 
 export function buildDefaultParams(apiName, token) {
   const parentId = uuidv4().replace(/-/g, '').substring(0, 16);
-  const traceparent = `00-${GLOBAL_TRACE_ID}-${parentId}-01`;
+  const traceparent = `00-${CONFIG.GLOBAL_TRACE_ID}-${parentId}-01`;
 
   console.log(`[TRACE INFO] API: ${apiName} | TRACE_ID: ${GLOBAL_TRACE_ID} | traceparent: ${traceparent}`);
 
@@ -121,7 +120,7 @@ export function buildDefaultParams(apiName, token) {
       {},
       defaultHeaders,
       token ? { Authorization: `Bearer ${token}` } : {},
-      { traceparent: traceparent }
+      { traceparent }
     ),
     tags: { apiName },
     redirects: 0,
