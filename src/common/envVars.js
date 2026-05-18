@@ -113,7 +113,7 @@ export function buildDefaultParams(apiName, token) {
   const parentId = uuidv4().replace(/-/g, '').substring(0, 16);
   const traceparent = `00-${CONFIG.GLOBAL_TRACE_ID}-${parentId}-01`;
 
-  console.log(`[TRACE INFO] API: ${apiName} | TRACE_ID: ${GLOBAL_TRACE_ID} | traceparent: ${traceparent}`);
+  console.log(`[TRACE INFO] API: ${apiName} | TRACE_ID: ${CONFIG.GLOBAL_TRACE_ID} | traceparent: ${traceparent}`);
 
   return {
     headers: Object.assign(
