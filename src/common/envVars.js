@@ -1,7 +1,7 @@
 import { coalesce } from "./utils.js";
-import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+// import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
-const GLOBAL_TRACE_ID = uuidv4().replace(/-/g, '');
+// const GLOBAL_TRACE_ID = __ENV.GLOBAL_TRACE_ID;
 
 const vu = parseInt(coalesce(__ENV.VUS_MAX_ENV, 3));
 
@@ -111,17 +111,17 @@ export const defaultHeaders = {
 };
 
 export function buildDefaultParams(apiName, token) {
-  const parentId = uuidv4().replace(/-/g, '').substring(0, 16);
-  const traceparent = `00-${GLOBAL_TRACE_ID}-${parentId}-01`;
+  // const parentId = uuidv4().replace(/-/g, '').substring(0, 16);
+  // const traceparent = `00-${GLOBAL_TRACE_ID}-${parentId}-01`;
 
-  console.log(`[TRACE INFO] API: ${apiName} | TRACE_ID: ${GLOBAL_TRACE_ID} | traceparent: ${traceparent}`);
+  // console.log(`[TRACE INFO] API: ${apiName} | TRACE_ID: ${GLOBAL_TRACE_ID} | traceparent: ${traceparent}`);
 
   return {
     headers: Object.assign(
       {},
       defaultHeaders,
       token ? { Authorization: `Bearer ${token}` } : {},
-      { traceparent: traceparent }
+      // { traceparent: traceparent }
     ),
     tags: { apiName },
     redirects: 0,
