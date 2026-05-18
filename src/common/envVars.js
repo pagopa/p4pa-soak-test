@@ -1,7 +1,7 @@
 import { coalesce } from "./utils.js";
 // import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
-const GLOBAL_TRACE_ID = __ENV.GLOBAL_TRACE_ID;
+const GLOBAL_TRACE_ID = __ENV.TRACE_ID_ENV;
 
 const vu = parseInt(coalesce(__ENV.VUS_MAX_ENV, 3));
 
