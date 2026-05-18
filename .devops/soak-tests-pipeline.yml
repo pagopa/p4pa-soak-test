@@ -255,6 +255,12 @@ jobs:
                 docker pull grafana/k6:latest
               displayName: Pull k6 image
 
+            - script: |
+                TRACE_ID=$(uuidgen | tr -d '-')
+                echo "Generated traceId: $TRACE_ID"
+                echo "##vso[task.setvariable variable=TRACE_ID_ENV]$TRACE_ID"
+              displayName: Generate traceId
+
             - ${{ each k6Test in split(variables.SCRIPTS_TO_EXECUTE, ',') }}:
                 - script: |
                     chmod +x runAll.sh
@@ -273,6 +279,7 @@ jobs:
                       -e SELFCARE_TOKEN_EXCHANGE_ENV=$(SELFCARE_TOKEN_EXCHANGE_ENV) \
                       -e SELFCARE_TOKEN_ISSUER_ENV=${{ variables.SELFCARE_TOKEN_ISSUER_ENV }} \
                       -e CLIENT_SECRET_PU_ENV=$(CLIENT_SECRET_PU_ENV) \
+                      -e TRACE_ID_ENV=$(TRACE_ID_ENV) \
                       \
                       -e VUS_MAX_ENV=${{ parameters.VUS_MAX_ENV }} \
                       -e SCENARIO_DURATION_ENV=${{ parameters.SCENARIO_DURATION_ENV }} \
