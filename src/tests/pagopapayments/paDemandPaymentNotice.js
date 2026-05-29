@@ -6,14 +6,23 @@ import {
   PAGOPA_PAYMENTS_API_NAMES,
 } from "../../api/pagopapayments/paDemandPaymentNotice.js";
 import { getOrganizations } from "../../api/cie/organizationCie.js";
-import { abort, getAuthToken, getRandom, randomFiscalCode } from "../../common/utils.js";
+import {
+  abort,
+  getAuthToken,
+  getRandom,
+  randomFiscalCode,
+} from "../../common/utils.js";
 import { getDebtPositionTypeOrgsWithSpontaneous } from "../../api/citizen/debtPositionTypeOrg.js";
 import { getBroker } from "../../api/organization/brokerEntity.js";
 import { getOrganizationsWithSpontaneous } from "../../api/citizen/organization.js";
 import { CONFIG } from "../../common/envVars.js";
 import { logErrorResult } from "../../common/dynamicScenarios/utils.js";
-import { DemandPaymentNotice, RequestData } from "../../model/pagopapayments/demandPaymentNoticeCie.js";
+import {
+  DemandPaymentNotice,
+  RequestData,
+} from "../../model/pagopapayments/demandPaymentNoticeCie.js";
 import { getRandomDebtPositionTypeOrgCodeCie } from "../../common/debtPositionUtils.js";
+import { getOrganizationStation } from "../../api/organization/organization.js";
 
 const application = "pagopapayments/paDemandPaymentNotice";
 const testName = "paDemandPaymentNotice";
@@ -34,33 +43,38 @@ export function setup() {
 
   const organizationCie = getRandomCieOrganization();
   const debtPositionTypeOrgCode = getRandomDebtPositionTypeOrgCodeCie();
-  const organizationWithSpontaneous = getRandomOrganizationWithSpontaneousResult(brokerId, authToken);
+  const organizationWithSpontaneous =
+    getRandomOrganizationWithSpontaneousResult(brokerId, authToken);
   const debtPositionTypeOrgsWithSpontaneous =
     getDebtPositionTypeOrgsWithSpontaneousResult(
       brokerId,
       organizationWithSpontaneous.organizationId,
       debtPositionTypeOrgCode,
-      authToken
+      authToken,
     );
   const broker = getBrokerResult(brokerId, authToken);
+  const organizationStation = getOrganizationStation(
+    organizationCie.organizationId,
+    authToken,
+  ).json();
 
   const paDemandPaymentNoticeRequest = new DemandPaymentNotice(
     organizationWithSpontaneous.orgFiscalCode,
     broker.brokerFiscalCode,
     CONFIG.CONTEXT.PAGOPA_PAYMENTS.SERVICE_ID,
-    broker.stationId,
+    organizationStation.stationId,
     CONFIG.CONTEXT.PAGOPA_PAYMENTS.SERVICE_SUBJECT_ID,
     new RequestData(
       debtPositionTypeOrgCode,
       organizationCie.value,
       randomFiscalCode(),
       "SOAK_TEST",
-    )
+    ),
   );
 
   return {
     token: authToken,
-    paDemandPaymentNoticeRequest
+    paDemandPaymentNoticeRequest,
   };
 }
 
@@ -68,7 +82,7 @@ export function setup() {
 export default (data) => {
   const result = paDemandPaymentNotice(
     data.paDemandPaymentNoticeRequest,
-    data.token
+    data.token,
   );
 
   assert(result, [statusOk()]);
@@ -93,7 +107,10 @@ const getRandomCieOrganization = () => {
 };
 
 const getRandomOrganizationWithSpontaneousResult = (brokerId, authToken) => {
-  const organizations = getOrganizationsWithSpontaneous(brokerId, authToken).json();
+  const organizations = getOrganizationsWithSpontaneous(
+    brokerId,
+    authToken,
+  ).json();
   if (organizations.length === 0) {
     abort(
       "No elements found in organizations list please restart test with at least one element",
@@ -107,13 +124,13 @@ const getDebtPositionTypeOrgsWithSpontaneousResult = (
   brokerId,
   organizationId,
   code,
-  authToken
+  authToken,
 ) => {
   const debtPositionTypeOrgsWithSpontaneous =
     getDebtPositionTypeOrgsWithSpontaneous(
       brokerId,
       organizationId,
-      authToken
+      authToken,
     ).json();
   if (debtPositionTypeOrgsWithSpontaneous.length === 0) {
     abort(
