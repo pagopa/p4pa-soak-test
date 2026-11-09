@@ -1,10 +1,7 @@
-import {
-  jUnit,
-  textSummary,
-} from "https://jslib.k6.io/k6-summary/0.0.3/index.js";
-import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
-import { coalesce } from "./utils.js";
-import { CONFIG } from "./envVars.js";
+import {jUnit, textSummary,} from "https://jslib.k6.io/k6-summary/0.0.3/index.js";
+import {htmlReport} from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
+import {coalesce} from "./utils.js";
+import {CONFIG} from "./envVars.js";
 import rampingArrivalRate from "./dynamicScenarios/scenarios/rampingArrivalRate.js";
 import rampingGrowingArrivalRate from "./dynamicScenarios/scenarios/rampingGrowingArrivalRate.js";
 
@@ -14,7 +11,7 @@ export default (application, testName) => (data) => {
   const outputFilePrefix = `${application}/${testName}`;
 
   console.log(
-    `TEST DETAILS: [Time to complete test: ${data.state.testRunDurationMs} ms, Scenario test type: ${CONFIG.SCENARIOS.TYPES}, Max Number of available entities: ${CONFIG.MAX_AVAILABLE_TEST_ENTITIES_ENV}, Request processed: ${data.metrics.http_reqs.values.count}, Request OK: ${data.metrics.http_req_failed.values.fails}, ERRORS: ${data.metrics.http_req_failed.values.passes}]`
+    `TEST DETAILS: [Time to complete test: ${data.state.testRunDurationMs} ms, Scenario test type: ${CONFIG.SCENARIOS.TYPES}, Max Number of available entities: ${CONFIG.MAX_AVAILABLE_TEST_ENTITIES_ENV}, Request processed: ${data.metrics.http_reqs?.values.count ?? 0}, Request OK: ${data.metrics.http_req_failed?.values.fails ?? 0}, ERRORS: ${data.metrics.http_req_failed?.values.passes ?? 0}]`
   );
 
   if (CONFIG.SCENARIOS.TYPES.indexOf("rampingArrivalRate") > -1) {

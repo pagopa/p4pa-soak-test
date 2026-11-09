@@ -1,5 +1,5 @@
-import { coalesce } from "./utils.js";
-import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+import {coalesce} from "./utils.js";
+import {uuidv4} from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
 const vu = parseInt(coalesce(__ENV.VUS_MAX_ENV, 3));
 
@@ -40,8 +40,11 @@ export const CONFIG = {
     },
     EXTERNAL_USER_ID: __ENV.EXTERNAL_USER_ID_ENV,
     ORG_IPA_CODE: coalesce(__ENV.ORG_IPA_CODE_ENV, "IPA_TEST_2"),
-    BROKER_ID_CIE: __ENV.TARGET_ENV === "DEV" ? 15 : 7
+    BROKER_ID_CIE: __ENV.TARGET_ENV === "DEV" ? 15 : 7,
+    SEND: {
+      NOTIFICATIONS_NUMBER: parseInt(coalesce(__ENV.SEND_NOTIFICATIONS_NUMBER_ENV, 0))
     },
+  },
 
   SCENARIOS: {
     TYPES: coalesce(__ENV.SCENARIO_TYPE_ENV, "constant-arrival-rate").split(

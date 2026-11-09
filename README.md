@@ -22,14 +22,15 @@ All configured tests as default will be executed simulating the following worklo
 
 The following environment variables allow to configure the test context data:
 
-| ENV                         | Description                                                             | Default |
-| --------------------------- | ----------------------------------------------------------------------- | ------- |
-| TARGET_ENV                  | The environment to test                                                 |         |
-| ORG_IPA_CODE_ENV            | The IPA code of an organization whose the user logged has admin rights  |         |
-| EXTERNAL_USER_ID_ENV        | The external user id to use during fake auth                            |         |
-| SELFCARE_TOKEN_EXCHANGE_ENV | The Selfcare's ID token used for the token exchange authentication flow |         |
-| SELFCARE_TOKEN_ISSUER_ENV   | The Selfcare's ID token issuer's claim                                  |         |
-| CLIENT_SECRET_PU_ENV        | piattaforma-unitaria's client secret                                    |         |
+| ENV                           | Description                                                             | Default |
+|-------------------------------|-------------------------------------------------------------------------|---------|
+| TARGET_ENV                    | The environment to test                                                 |         |
+| ORG_IPA_CODE_ENV              | The IPA code of an organization whose the user logged has admin rights  |         |
+| EXTERNAL_USER_ID_ENV          | The external user id to use during fake auth                            |         |
+| SELFCARE_TOKEN_EXCHANGE_ENV   | The Selfcare's ID token used for the token exchange authentication flow |         |
+| SELFCARE_TOKEN_ISSUER_ENV     | The Selfcare's ID token issuer's claim                                  |         |
+| CLIENT_SECRET_PU_ENV          | piattaforma-unitaria's client secret                                    |         |
+| SEND_NOTIFICATIONS_NUMBER_ENV | Number of notifications in the SEND file                                |         |
 
 # Scenario
 
